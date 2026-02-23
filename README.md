@@ -1,7 +1,7 @@
 # 🏢 Pusbisnas (Pusat Bisnis Nasional) - Premium Landing Page
 
 <div align="center">
-  <img src="assets/Logo%20Pusbisnas.png" alt="Pusbisnas Logo" width="200"/>
+  <img src="assets/logo%20pusbisnas.png" alt="Pusbisnas Logo" width="200"/>
   <p><em>Elevating Business Competency for the Next Generation.</em></p>
 </div>
 
