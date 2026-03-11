@@ -28,11 +28,7 @@ body.luxury-dark {
 
 /* Typography */
 .title-serif { font-family: 'Playfair Display', serif; font-weight: 700; letter-spacing: 0.5px; }
-.text-gradient-gold { 
-    background: var(--gold-gradient); 
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent; 
-}
+.text-gradient-gold { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .text-white { color: #fff !important; }
 .text-gold { color: var(--gold-light) !important; }
 
@@ -40,31 +36,16 @@ body.luxury-dark {
 
 /* Navbar Premium Glass & Logo Box */
 .premium-glass {
-    background: rgba(3, 11, 23, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--glass-border);
-    position: fixed; width: 100%; top: 0; z-index: 1000; height: 85px; display: flex; align-items: center;
+    background: rgba(3, 11, 23, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); position: fixed; width: 100%; top: 0; z-index: 1000; height: 85px; display: flex; align-items: center;
 }
 .navbar .container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 
 /* LOGO BOX */
 .logo { display: inline-block; text-decoration: none; }
 .logo-box-light {
-    background: #ffffff;
-    padding: 4px 8px; 
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #ffffff; padding: 4px 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
 }
-.logo-box-light img { 
-    height: 58px; 
-    display: block; 
-    object-fit: contain;
-}
+.logo-box-light img { height: 58px; display: block; object-fit: contain; }
 
 .nav-menu { display: flex; gap: 35px; align-items: center; list-style: none; }
 .nav-link { color: var(--text-main); text-decoration: none; font-weight: 500; transition: var(--transition-fast); position: relative; font-size: 0.95rem; }
@@ -140,8 +121,8 @@ section { padding: 120px 0; }
 .status-badge-elite {
     padding: 8px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px;
 }
-.status-badge-elite.ongoing-green { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #fff; } /* Warna Hijau Cerah */
-.status-badge-elite.completed { background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; color: #60a5fa; } /* Warna Biru */
+.status-badge-elite.ongoing-green { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #fff; } 
+.status-badge-elite.completed { background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; color: #60a5fa; } 
 
 .dot-pulse-green { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; animation: pulse-green 2s infinite; }
 @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
@@ -155,7 +136,7 @@ section { padding: 120px 0; }
 .theme-quote { color: var(--gold-main); font-style: italic; font-size: 1.1rem; margin-bottom: 25px; border-left: 3px solid var(--gold-main); padding-left: 15px; }
 .project-desc { color: var(--text-muted); font-size: 1.05rem; }
 
-/* Clean Social Text Link (Solusi Tumpuk-tumpuk UI Instagram) */
+/* Clean Social Text Link */
 .social-text-link {
     display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 1rem; font-weight: 500; transition: var(--transition-fast); text-decoration: none !important; border: none; padding: 10px 0;
 }
@@ -220,14 +201,16 @@ section { padding: 120px 0; }
 @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 @keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
 
-/* FOOTER SECTION (4 Kolom) */
+/* FOOTER SECTION (3 Kolom Elegan) */
 .footer-premium { background: #01040A; border-top: 2px solid var(--navy-light); padding: 80px 0 30px; position: relative; overflow: hidden; }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr 1fr; gap: 40px; margin-bottom: 40px; }
+
+/* Grid disesuaikan ke 3 Kolom */
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 50px; margin-bottom: 40px; }
 
 .footer-logo { height: 50px; object-fit: contain; }
 .footer-desc { color: var(--text-muted); font-size: 0.95rem; max-width: 400px; line-height: 1.8; }
 
-.footer-links h4, .footer-projects h4, .footer-contact h4 { font-size: 1.3rem; margin-bottom: 25px; letter-spacing: 1px; }
+.footer-links h4, .footer-contact h4 { font-size: 1.3rem; margin-bottom: 25px; letter-spacing: 1px; }
 .nav-list { list-style: none; display: flex; flex-direction: column; gap: 15px; }
 .nav-list a { color: var(--text-muted); text-decoration: none; transition: var(--transition-fast); }
 .nav-list a:hover { color: var(--gold-light); padding-left: 5px; }
@@ -236,12 +219,9 @@ section { padding: 120px 0; }
 .contact-link { display: flex; align-items: center; gap: 15px; color: var(--text-muted); text-decoration: none; transition: var(--transition-fast); }
 .contact-link span { font-size: 0.9rem; word-break: break-word; }
 .contact-icon { min-width: 40px; height: 40px; background: var(--navy-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 1.1rem; transition: var(--transition-fast); }
-.project-icon { background: rgba(20, 108, 67, 0.2); color: #22c55e; }
-.ultimate-icon { background: rgba(220, 38, 38, 0.2); color: #ef4444; }
 
 .contact-link:hover { color: var(--gold-light); transform: translateX(8px); }
-.contact-link:hover .project-icon { background: #22c55e; color: #fff; box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
-.contact-link:hover .ultimate-icon { background: #ef4444; color: #fff; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+.contact-link:hover .contact-icon { background: var(--gold-main); color: var(--navy-bg); box-shadow: 0 0 15px rgba(200,157,40,0.4); }
 
 /* FOOTER BOTTOM (NIB & SOCIAL) */
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px; gap: 15px; }
