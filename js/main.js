@@ -63,10 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.5 });
 
-    const triggerArea = document.querySelector('.counter-trigger-area');
-    if (triggerArea) {
-        counterObserver.observe(triggerArea);
-    }
+    const triggerAreas = document.querySelectorAll('.counter-trigger-area');
+    triggerAreas.forEach(area => {
+        counterObserver.observe(area);
+    });
 
     /* --- 4. Dynamic Marquee Generation (76 Institutions) --- */
     const institutions = [

@@ -91,13 +91,41 @@ section { padding: 120px 0; }
 .about-highlights { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; list-style: none; padding: 0; }
 .about-highlights li { display: block; }
 .highlight-item { 
-    display: flex; align-items: center; gap: 12px; background: rgba(255, 255, 255, 0.03); 
-    padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(200, 157, 40, 0.2); 
-    transition: var(--transition-fast); cursor: default; 
+    display: flex; 
+    flex-direction: row; /* Memaksa ikon dan teks bersebelahan */
+    align-items: center; /* Sejajar secara vertikal */
+    justify-content: center; /* Presisi di tengah-tengah kotak */
+    gap: 12px; 
+    background: rgba(255, 255, 255, 0.03); 
+    padding: 14px 28px; /* Padding dilebarkan sedikit agar proporsional */
+    border-radius: 50px; 
+    border: 1px solid rgba(200, 157, 40, 0.2); 
+    transition: var(--transition-fast); 
+    cursor: default; 
 }
+
 .highlight-item:hover { 
-    background: rgba(200, 157, 40, 0.1); border-color: var(--gold-main); 
-    transform: translateY(-5px) scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    background: rgba(200, 157, 40, 0.1); 
+    border-color: var(--gold-main); 
+    transform: translateY(-5px) scale(1.05); 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Memastikan ikon (termasuk FontAwesome) proporsional */
+.highlight-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--gold-light);
+}
+
+/* Memastikan teks tetap rapi */
+.highlight-item span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-main);
+    text-align: left;
 }
 
 /* GRID FITUR */
@@ -252,6 +280,11 @@ section { padding: 120px 0; }
 }
 
 @media (max-width: 768px) {
+    /* FIX GAP BLANK HITAM PANJANG */
+    section { padding: 70px 0; } 
+    .section-heading { margin-bottom: 40px; }
+    .mb-5 { margin-bottom: 30px; }
+    
     .menu-toggle { display: block; cursor: pointer; }
     .bar { display: block; width: 25px; height: 2px; background: #fff; margin: 5px auto; transition: 0.3s; }
     .nav-menu { position: fixed; left: -100%; top: 85px; flex-direction: column; background: var(--navy-bg); width: 100%; text-align: center; padding: 30px 0; border-bottom: 1px solid var(--glass-border); transition: 0.4s ease; }
