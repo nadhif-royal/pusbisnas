@@ -57,7 +57,7 @@ pusbisnas-website/
 └── assets/              # Direktori penyimpanan media (Gambar & Logo)
     ├── favicon.png
     ├── Logo Pusbisnas.png
-    └── logo canvas indonesia.png
+    └── Logo of our partners
 
 ```
 
