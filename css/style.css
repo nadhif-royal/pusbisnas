@@ -28,7 +28,13 @@ body.luxury-dark {
 
 /* Typography */
 .title-serif { font-family: 'Playfair Display', serif; font-weight: 700; letter-spacing: 0.5px; }
-.text-gradient-gold { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.text-gradient-gold {
+    background: var(--gold-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
 .text-white { color: #fff !important; }
 .text-gold { color: var(--gold-light) !important; }
 
