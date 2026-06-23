@@ -154,6 +154,20 @@ section { padding: 80px 0; }
 .feature-card h3 { font-size: 1.4rem; color: #fff; margin-bottom: 15px; }
 .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
 
+/* ACHIEVEMENTS SECTION (Strativate Style) */
+.achievements-section { padding: 20px 0 80px; background: var(--navy-bg); position: relative; z-index: 5; }
+.achievements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+.achievement-card { background: rgba(17, 34, 64, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; padding: 60px 40px; text-align: center; position: relative; overflow: hidden; transition: var(--transition-slow); backdrop-filter: blur(10px); }
+.achievement-card:hover { transform: translateY(-10px); border-color: rgba(200, 157, 40, 0.4); background: rgba(17, 34, 64, 0.8); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
+.achievement-glow { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); width: 150px; height: 150px; background: rgba(200, 157, 40, 0.15); filter: blur(50px); z-index: -1; transition: var(--transition-slow); border-radius: 50%; }
+.achievement-card:hover .achievement-glow { background: rgba(200, 157, 40, 0.3); width: 250px; height: 250px; }
+.achievement-icon { font-size: 2.5rem; color: var(--gold-main); margin-bottom: 20px; transition: var(--transition-fast); }
+.achievement-card:hover .achievement-icon { transform: scale(1.1); color: var(--gold-light); }
+.achievement-number { font-size: 4.5rem; color: #fff; line-height: 1; margin-bottom: 10px; font-family: 'Playfair Display', serif; }
+.achievement-title { font-size: 1.4rem; color: var(--gold-light); margin-bottom: 15px; letter-spacing: 0.5px; }
+.achievement-desc { color: var(--text-muted); font-size: 1rem; line-height: 1.7; max-width: 90%; margin: 0 auto; }
+@media (max-width: 768px) { .achievements-grid { grid-template-columns: 1fr; gap: 30px; } .achievement-card { padding: 40px 20px; } .achievement-number { font-size: 3.5rem; } }
+
 /* PROJECT SECTION */
 .premium-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px; padding: 50px 60px; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.5); backdrop-filter: blur(20px); overflow: hidden; transition: var(--transition-slow); }
 .premium-card:hover { border-color: rgba(200, 157, 40, 0.4); }
