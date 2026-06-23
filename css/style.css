@@ -66,7 +66,7 @@ body.luxury-dark {
 .btn-gold-solid:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 30px rgba(200,157,40,0.4); }
 
 /* Hero Section with Floating Animation */
-.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; padding-top: 85px; overflow: hidden; }
+.hero { min-height: 95vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; padding-top: 120px; padding-bottom: 60px; overflow: hidden; }
 .hero-glow { position: absolute; border-radius: 50%; filter: blur(120px); z-index: -1; opacity: 0.5; }
 .background-glow-1 { width: 500px; height: 500px; background: var(--green-main); top: -10%; left: -10%; animation: floatY 8s infinite alternate ease-in-out; }
 .background-glow-2 { width: 600px; height: 600px; background: rgba(200,157,40,0.2); bottom: -20%; right: -10%; animation: floatX 10s infinite alternate ease-in-out; }
@@ -155,7 +155,7 @@ section { padding: 80px 0; }
 .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
 
 /* ACHIEVEMENTS SECTION (Strativate Style) */
-.achievements-section { padding: 20px 0 80px; background: var(--navy-bg); position: relative; z-index: 5; }
+.achievements-section { padding: 10px 0 50px; background: transparent; position: relative; z-index: 5; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
 .achievements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
 .achievement-card { background: rgba(17, 34, 64, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; padding: 60px 40px; text-align: center; position: relative; overflow: hidden; transition: var(--transition-slow); backdrop-filter: blur(10px); }
 .achievement-card:hover { transform: translateY(-10px); border-color: rgba(200, 157, 40, 0.4); background: rgba(17, 34, 64, 0.8); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
