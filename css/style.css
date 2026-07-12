@@ -480,6 +480,7 @@ body.light-mode .info-box:hover .tag {
 ======================================================== */
 .premium-card, .achievement-card, .service-card, .feature-card, .info-box, .stat-box, .premium-card-light {
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); /* Ditambahkan agar VS Code tidak memberikan warning */
     backface-visibility: hidden;
     transform: translateZ(0); /* Hardware Acceleration murni */
     will-change: transform, background-color, box-shadow;
