@@ -464,10 +464,10 @@ body.light-mode .theme-btn:hover { background: #F59E0B; color: #fff; transform: 
 
 /* 7. PERBAIKAN BUG HOVER DI EVENT KOLABORASI (Timeline & Tag) */
 body.light-mode .info-box:hover .timeline-list li { 
-    color: var(--text-muted); /* Mencegah font berubah jadi putih (tak terlihat) saat di-hover */
+    color: var(--text-muted); 
 }
 body.light-mode .info-box:hover .tag { 
     background: rgba(200, 157, 40, 0.1); 
-    color: #A17511; /* Emas gelap agar sangat kontras dan bisa dibaca di latar cerah */
+    color: #A17511; 
     border-color: rgba(200, 157, 40, 0.4);
 }
