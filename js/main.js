@@ -28,43 +28,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* --- 3. Number Counter Animation (Intersection Observer) --- */
-    let countersStarted = false;
-    function startCounters() {
-        if(countersStarted) return;
-        countersStarted = true;
-        
-        const counters = document.querySelectorAll('.counter');
-        const speed = 200; // Semakin kecil semakin cepat
+    const speed = 200; // Semakin kecil semakin cepat
 
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                const inc = target / speed;
-
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(updateCount, 15);
-                } else {
-                    counter.innerText = target;
-                }
-            };
-            updateCount();
-        });
-    }
-
-    // Observer untuk Counter berjalan jika area tersorot
-    const counterObserver = new IntersectionObserver((entries) => {
+    // Observer HANYA memicu animasi di area yang SEDANG dilihat
+    const counterObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                startCounters();
-                counterObserver.unobserve(entry.target);
+                // Cari angka HANYA di dalam kotak yang sedang disorot layar
+                const countersInArea = entry.target.querySelectorAll('.counter');
+                
+                countersInArea.forEach(counter => {
+                    const updateCount = () => {
+                        const target = +counter.getAttribute('data-target');
+                        const count = +counter.innerText;
+                        const inc = target / speed;
+
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count + inc);
+                            setTimeout(updateCount, 15);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCount();
+                });
+                
+                // Stop observing area ini agar tidak menghitung ulang
+                observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.2 }); // Memulai saat 20% area terlihat agar tidak keburu terlewat
 
     const triggerAreas = document.querySelectorAll('.counter-trigger-area');
     triggerAreas.forEach(area => {
+        // Set awal angka menjadi 0 sebelum di-scroll
+        area.querySelectorAll('.counter').forEach(c => c.innerText = '0');
         counterObserver.observe(area);
     });
 
@@ -96,14 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
     /* --- 5. Navbar Scroll Effect --- */
     window.addEventListener('scroll', () => {
         const nav = document.querySelector('.premium-glass');
+        // Gunakan CSS class untuk mengubah warna, agar sinkron dengan Light/Dark Mode
         if (window.scrollY > 50) {
-            nav.style.background = 'rgba(3, 11, 23, 0.98)';
-            nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.6)';
-            nav.style.borderBottom = '1px solid rgba(200, 157, 40, 0.4)';
+            nav.classList.add('scrolled');
+            // Hapus sisa inline-style jika sebelumnya menyangkut
+            nav.style.background = '';
+            nav.style.boxShadow = '';
+            nav.style.borderBottom = '';
         } else {
-            nav.style.background = 'rgba(3, 11, 23, 0.85)';
-            nav.style.boxShadow = 'none';
-            nav.style.borderBottom = '1px solid rgba(200, 157, 40, 0.2)';
+            nav.classList.remove('scrolled');
         }
     });
 

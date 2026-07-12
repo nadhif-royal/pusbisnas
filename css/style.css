@@ -259,7 +259,8 @@ section { padding: 80px 0; }
 /* Completed Stat Hover */
 .completed-stat { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.05); cursor: default; }
 .completed-stat .stat-icon { background: rgba(255,255,255,0.05); color: var(--text-muted); transition: var(--transition-fast); }
-.completed-stat .stat-data, .completed-stat .stat-label { color: var(--text-muted); transition: var(--transition-fast); }
+.completed-stat .stat-data { color: var(--text-muted); } /* Transisi dihapus murni agar hitungan angka JS tidak macet */
+.completed-stat .stat-label { color: var(--text-muted); transition: var(--transition-fast); }
 .completed-stat .plus { color: var(--text-muted); opacity: 0.5; }
 
 .completed-stat:hover { transform: translateY(-8px) scale(1.03); border-color: rgba(200, 157, 40, 0.5); background: rgba(255, 255, 255, 0.05); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
@@ -373,8 +374,8 @@ section { padding: 80px 0; }
 .theme-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--gold-light); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition-fast); margin-left: 10px; font-size: 1.1rem; }
 .theme-btn:hover { background: var(--gold-main); color: var(--navy-bg); transform: rotate(45deg) scale(1.1); box-shadow: 0 0 15px rgba(200, 157, 40, 0.4); }
 
-/* Transisi Halus Global (Dibersihkan agar tidak memicu bug kotak hilang/WebKit Repaint Bug) */
-body, .premium-glass, .about-section, .institutions-section, .footer-premium, h1, h2, h3, p {
+/* Transisi Halus Global (H3 / Angka dikeluarkan agar tidak bentrok dengan JavaScript) */
+body, .premium-glass, .about-section, .institutions-section, .footer-premium, h1, h2, p {
     transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease;
 }
 
@@ -391,8 +392,10 @@ body.light-mode {
     color: var(--text-main);
 }
 
-/* 1. Latar Belakang Section Utama */
-body.light-mode .premium-glass { background: rgba(255, 255, 255, 0.95); box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05); }
+/* 1. Latar Belakang Section Utama & Navbar Scroll */
+.premium-glass.scrolled { background: rgba(3, 11, 23, 0.98); box-shadow: 0 5px 20px rgba(0,0,0,0.6); border-bottom: 1px solid rgba(200, 157, 40, 0.4); }
+body.light-mode .premium-glass { background: rgba(255, 255, 255, 0.85); box-shadow: none; border-bottom: 1px solid rgba(0,0,0,0.05); }
+body.light-mode .premium-glass.scrolled { background: rgba(255, 255, 255, 0.98); box-shadow: 0 5px 20px rgba(0,0,0,0.08); border-bottom: 1px solid rgba(0,0,0,0.15); }
 body.light-mode .about-section, body.light-mode .institutions-section { background: linear-gradient(to bottom, var(--navy-bg), #E9EEF5); }
 body.light-mode .footer-premium { background: #FFFFFF; border-top: 1px solid #E2E8F0; } /* Footer bersih solid */
 
@@ -470,4 +473,15 @@ body.light-mode .info-box:hover .tag {
     background: rgba(200, 157, 40, 0.1); 
     color: #A17511; 
     border-color: rgba(200, 157, 40, 0.4);
+}
+
+/* ========================================================
+   8. BUG FIX: KOTAK BLANK SAAT THEME SWITCH (WEBKIT REPAINT)
+======================================================== */
+.premium-card, .achievement-card, .service-card, .feature-card, .info-box, .stat-box, .premium-card-light {
+    -webkit-backdrop-filter: blur(10px);
+    backface-visibility: hidden;
+    transform: translateZ(0); /* Hardware Acceleration murni */
+    will-change: transform, background-color, box-shadow;
+    /* transition !important dihapus agar AOS (Animate On Scroll) bisa berjalan perlahan & natural kembali */
 }
