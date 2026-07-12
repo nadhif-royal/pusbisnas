@@ -373,9 +373,9 @@ section { padding: 80px 0; }
 .theme-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--gold-light); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition-fast); margin-left: 10px; font-size: 1.1rem; }
 .theme-btn:hover { background: var(--gold-main); color: var(--navy-bg); transform: rotate(45deg) scale(1.1); box-shadow: 0 0 15px rgba(200, 157, 40, 0.4); }
 
-/* Transisi Halus Global */
+/* Transisi Halus Global (Diperbaiki agar animasi hover transform tidak kaku) */
 body, .premium-glass, .about-section, .institutions-section, .footer-premium, h1, h2, h3, p, .premium-card, .service-card, .feature-card, .info-box, .stat-box, .achievement-card, .premium-card-light {
-    transition: background-color 0.6s ease, background 0.6s ease, color 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
+    transition: background-color 0.6s ease, background 0.6s ease, color 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Variabel Light Mode - DIPERTAJAM */
