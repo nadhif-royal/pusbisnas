@@ -106,4 +106,38 @@ document.addEventListener('DOMContentLoaded', () => {
             nav.style.borderBottom = '1px solid rgba(200, 157, 40, 0.2)';
         }
     });
+
+    /* --- 6. Theme Toggle Logic (Light/Dark Mode) --- */
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn) {
+        const themeIcon = themeToggleBtn.querySelector('i');
+        const body = document.body;
+
+        // Cek preferensi user yang tersimpan sebelumnya di localStorage
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('light-mode');
+            if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+        }
+
+        // Fungsi saat tombol ditekan
+        themeToggleBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                if (themeIcon) {
+                    themeIcon.classList.replace('fa-sun', 'fa-moon');
+                    themeIcon.style.transition = "transform 0.4s ease";
+                    themeIcon.style.transform = "rotate(360deg)";
+                }
+                localStorage.setItem('theme', 'light');
+            } else {
+                if (themeIcon) {
+                    themeIcon.classList.replace('fa-moon', 'fa-sun');
+                    themeIcon.style.transition = "transform 0.4s ease";
+                    themeIcon.style.transform = "rotate(0deg)";
+                }
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    }
 });

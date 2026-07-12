@@ -364,3 +364,61 @@ section { padding: 80px 0; }
     .card-header-actions { justify-content: center; }
     .cta-group { justify-content: center; }
 }
+
+/* ========================================================
+   LIGHT MODE & THEME TOGGLE
+======================================================== */
+
+/* Tombol Toggle */
+.theme-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--gold-light); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition-fast); margin-left: 10px; font-size: 1.1rem; }
+.theme-btn:hover { background: var(--gold-main); color: var(--navy-bg); transform: rotate(45deg) scale(1.1); box-shadow: 0 0 15px rgba(200, 157, 40, 0.4); }
+
+/* Transisi Halus Global */
+body, .premium-glass, .about-section, .institutions-section, .footer-premium, h1, h2, h3, p, .premium-card, .service-card, .feature-card, .info-box, .stat-box {
+    transition: background-color 0.6s ease, background 0.6s ease, color 0.6s ease, border-color 0.6s ease;
+}
+
+/* Variabel Light Mode */
+body.light-mode {
+    --navy-bg: #F8FAFC;          /* Latar abu-abu sangat muda (bersih) */
+    --navy-card: #FFFFFF;        /* Kartu putih bersih */
+    --navy-light: #E2E8F0;       
+    --text-main: #1E293B;        /* Teks gelap (Slate-800) */
+    --text-muted: #64748B;       /* Teks abu-abu */
+    --glass-bg: rgba(255, 255, 255, 0.85); 
+    --glass-border: rgba(200, 157, 40, 0.3);
+    background-color: var(--navy-bg);
+    color: var(--text-main);
+}
+
+/* Penyesuaian Komponen di Light Mode */
+body.light-mode .premium-glass { background: rgba(248, 250, 252, 0.9); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+body.light-mode .about-section, body.light-mode .institutions-section { background: linear-gradient(to bottom, var(--navy-bg), #E2E8F0); }
+body.light-mode .footer-premium { background: #F1F5F9; border-top-color: #CBD5E1; }
+
+/* Mengganti teks yang tadinya hardcoded warna putih (#fff) menjadi gelap */
+body.light-mode .section-heading h2,
+body.light-mode .hero h1,
+body.light-mode .feature-card h3,
+body.light-mode .service-title,
+body.light-mode .project-brand h3,
+body.light-mode .achievement-number,
+body.light-mode .stat-data,
+body.light-mode .premium-card-light .lead,
+body.light-mode .timeline-list strong {
+    color: #0F172A !important;
+}
+
+/* Penyesuaian elemen transparan agar terlihat di Light Mode */
+body.light-mode .highlight-item, 
+body.light-mode .tag, 
+body.light-mode .inst-item,
+body.light-mode .completed-stat { 
+    background: rgba(0, 0, 0, 0.03); border-color: rgba(0, 0, 0, 0.1); color: var(--text-main);
+}
+body.light-mode .status-badge-elite.ongoing-green { color: #146C43 !important; }
+body.light-mode .status-badge-elite.completed { color: #1D4ED8 !important; }
+
+/* Style Tombol Toggle saat mode terang */
+body.light-mode .theme-btn { background: #FFFFFF; border-color: rgba(0,0,0,0.1); color: #F59E0B; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+body.light-mode .theme-btn:hover { background: #F59E0B; color: #fff; transform: rotate(-45deg) scale(1.1); }
