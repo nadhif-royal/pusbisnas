@@ -154,19 +154,132 @@ section { padding: 80px 0; }
 .feature-card h3 { font-size: 1.4rem; color: #fff; margin-bottom: 15px; }
 .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
 
-/* ACHIEVEMENTS SECTION */
+/* ========================================================
+   9. IMPACT SNAPSHOT SECTION (3D FLIP & SCALE EFFECT)
+======================================================== */
 .achievements-section { padding: 10px 0 50px; background: transparent; position: relative; z-index: 5; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-.achievements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
-.achievement-card { background: rgba(17, 34, 64, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; padding: 60px 40px; text-align: center; position: relative; overflow: hidden; transition: var(--transition-slow); backdrop-filter: blur(10px); }
-.achievement-card:hover { transform: translateY(-10px); border-color: rgba(200, 157, 40, 0.4); background: rgba(17, 34, 64, 0.8); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
-.achievement-glow { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); width: 150px; height: 150px; background: rgba(200, 157, 40, 0.15); filter: blur(50px); z-index: -1; transition: var(--transition-slow); border-radius: 50%; }
-.achievement-card:hover .achievement-glow { background: rgba(200, 157, 40, 0.3); width: 250px; height: 250px; }
-.achievement-icon { font-size: 2.5rem; color: var(--gold-main); margin-bottom: 20px; transition: var(--transition-fast); }
-.achievement-card:hover .achievement-icon { transform: scale(1.1); color: var(--gold-light); }
-.achievement-number { font-size: 4.5rem; color: #fff; line-height: 1; margin-bottom: 10px; font-family: 'Playfair Display', serif; }
-.achievement-title { font-size: 1.4rem; color: var(--gold-light); margin-bottom: 15px; letter-spacing: 0.5px; }
-.achievement-desc { color: var(--text-muted); font-size: 1rem; line-height: 1.7; max-width: 90%; margin: 0 auto; }
-@media (max-width: 768px) { .achievements-grid { grid-template-columns: 1fr; gap: 30px; } .achievement-card { padding: 40px 20px; } .achievement-number { font-size: 3.5rem; } }
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+    perspective: 1000px; /* Memberikan efek ruang 3D */
+}
+
+/* Wrapper Pembungkus Efek Scale saat di-Hover */
+.impact-wrapper {
+    background: transparent;
+    height: 280px; /* Ditinggikan sedikit agar proporsinya selega portofolio Anda */
+    cursor: pointer;
+    perspective: 1000px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.impact-wrapper:hover {
+    transform: translateY(-10px) scale(1.05) !important; /* Senjata rahasia (!important) untuk menjebol blokade inline-style AOS */
+    z-index: 10;
+}
+
+/* Poros Putaran 3D */
+.impact-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efek pantulan halus (bouncy) */
+    transform-style: preserve-3d;
+}
+
+/* Eksekusi Putaran Saat Diklik */
+.impact-wrapper.flipped .impact-inner {
+    transform: rotateY(180deg);
+}
+
+/* Desain Sisi Depan dan Belakang (Digabung) */
+.impact-front, .impact-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 24px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(11, 17, 33, 0.4);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+
+/* Glow Shadow saat di-hover */
+.impact-wrapper:hover .impact-front,
+.impact-wrapper:hover .impact-back {
+    border-color: rgba(200, 157, 40, 0.6);
+    background: rgba(11, 17, 33, 0.95);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(200, 157, 40, 0.08);
+}
+
+/* Khusus Sisi Belakang (Diputar 180 Derajat di Awal) */
+.impact-back {
+    transform: rotateY(180deg);
+    background: rgba(17, 34, 64, 0.8);
+    padding: 30px 40px;
+}
+
+/* Font dan Tipografi Konsisten */
+.impact-number {
+    font-size: 4.5rem; /* Sedikit dibesarkan menyesuaikan font Serif */
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+    font-family: 'Playfair Display', serif; /* Mematuhi design system Pusbisnas yang premium */
+    line-height: 1;
+}
+.impact-plus { color: var(--gold-main); font-weight: 700; }
+
+.impact-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Teks Petunjuk Klik */
+.click-hint {
+    font-size: 0.75rem;
+    color: rgba(200, 157, 40, 0.8);
+    margin-top: 15px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+.impact-wrapper:hover .click-hint {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Teks Sisi Belakang */
+.impact-back h4 { font-family: 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 600; }
+.impact-back p { font-size: 0.95rem; color: #E2E8F0; line-height: 1.7; margin: 0; }
+
+/* === OVERRIDE LIGHT MODE === */
+body.light-mode .impact-front,
+body.light-mode .impact-back { background: #FFFFFF; border-color: rgba(11, 17, 33, 0.08); box-shadow: 0 10px 30px rgba(11, 17, 33, 0.03); }
+body.light-mode .impact-wrapper:hover .impact-front,
+body.light-mode .impact-wrapper:hover .impact-back { border-color: var(--gold-main); background: #FFFFFF; box-shadow: 0 20px 40px rgba(11, 17, 33, 0.08), 0 0 20px rgba(200, 157, 40, 0.15); }
+body.light-mode .impact-number { color: #0B1121 !important; }
+body.light-mode .impact-label { color: #475569; }
+body.light-mode .impact-back h4 { color: #0B1121; }
+body.light-mode .impact-back p { color: #475569; }
+
+@media (max-width: 768px) { .impact-grid { grid-template-columns: 1fr; gap: 25px; margin-top: 30px; } .impact-wrapper { height: 220px; } .impact-number { font-size: 3.5rem; } .impact-back { padding: 20px; } .impact-back p { font-size: 0.85rem; } }
 
 /* SERVICES SECTION */
 .services-section { padding: 60px 0 100px; position: relative; z-index: 5; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
