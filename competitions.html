@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusbisnas | Kompetisi</title>
+    
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="luxury-dark">
+
+    <nav class="navbar premium-glass" data-aos="fade-down" data-aos-duration="800">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-box-light">
+                    <img src="assets/Logo Pusbisnas.png" alt="Logo Pusbisnas">
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link btn-gold-outline"><i class="fas fa-home"></i> Kembali ke Beranda</a></li>
+                <li style="display: flex; align-items: center; margin-left: 10px;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ONGOING COMPETITIONS SECTION -->
+    <section class="ongoing-section" style="padding-top: 150px; min-height: 80vh;">
+        <div class="container">
+            <div class="section-heading" data-aos="fade-up">
+                <span class="subtitle-gold" style="margin-bottom: 10px;">Pilih Passion Kamu</span>
+                <h2 class="title-serif">Ongoing Competitions</h2>
+                <div class="gold-line"></div>
+            </div>
+
+            <div class="poster-grid">
+                <!-- Card 1: IFEC 2026 -->
+                <div class="poster-card" data-aos="fade-up" data-aos-duration="800">
+                    <div class="poster-img-wrapper">
+                        <div class="status-tag-img">Pendaftaran Buka</div>
+                        <img src="assets/poster-ifec2026.webp" alt="Poster IFEC 2026" class="poster-img">
+                    </div>
+                    <div class="poster-content">
+                        <span class="tag" style="font-size: 0.75rem; margin-bottom: 10px; display: inline-block;">Essay Competition</span>
+                        <h3 class="poster-title">Indonesia Future Essay Competition 2026</h3>
+                        <div class="poster-meta">
+                            <span><i class="fas fa-ticket-alt"></i> Mulai Rp 20.000</span>
+                            <span><i class="fas fa-users"></i> Individu / Tim</span>
+                        </div>
+                        <button class="btn-detail-card" onclick="openModal('modal-ifec')">Lihat Detail <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Card 2: SDGs Canvas -->
+                <div class="poster-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                    <div class="poster-img-wrapper">
+                        <div class="status-tag-img">Pendaftaran Buka</div>
+                        <img src="assets/poster-sdgscanvas2026.webp" alt="Poster SDGs Canvas" class="poster-img">
+                    </div>
+                    <div class="poster-content">
+                        <span class="tag" style="font-size: 0.75rem; margin-bottom: 10px; display: inline-block;">BMC Competition</span>
+                        <h3 class="poster-title">National SDGs Business Model Canvas 2026</h3>
+                        <div class="poster-meta">
+                            <span><i class="fas fa-ticket-alt"></i> Mulai Rp 20.000</span>
+                            <span><i class="fas fa-users"></i> Individu / Tim</span>
+                        </div>
+                        <button class="btn-detail-card" onclick="openModal('modal-canvas')">Lihat Detail <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Card 3: SDGs Essay -->
+                <div class="poster-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                    <div class="poster-img-wrapper">
+                        <div class="status-tag-img">Pendaftaran Buka</div>
+                        <img src="assets/poster-sdgsessay2026.webp" alt="Poster SDGs Essay" class="poster-img">
+                    </div>
+                    <div class="poster-content">
+                        <span class="tag" style="font-size: 0.75rem; margin-bottom: 10px; display: inline-block;">Essay Competition</span>
+                        <h3 class="poster-title">National SDGs Essay Competition 2026</h3>
+                        <div class="poster-meta">
+                            <span><i class="fas fa-ticket-alt"></i> Mulai Rp 20.000</span>
+                            <span><i class="fas fa-users"></i> Individu / Tim</span>
+                        </div>
+                        <button class="btn-detail-card" onclick="openModal('modal-essay')">Lihat Detail <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODALS DYNAMIC AREA -->
+        <!-- MODAL IFEC -->
+        <div id="modal-ifec" class="detail-modal-overlay" onclick="closeModalOutside(event, 'modal-ifec')">
+            <div class="detail-modal-container">
+                <div class="modal-header">
+                    <h3>IFEC 2026</h3>
+                    <button class="close-modal" onclick="closeModal('modal-ifec')"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-split">
+                        <div class="modal-left">
+                            <img src="assets/poster-ifec2026.webp" alt="Poster IFEC">
+                        </div>
+                        <div class="modal-right">
+                            <div class="modal-section">
+                                <h4><i class="fas fa-info-circle"></i> Deskripsi Program</h4>
+                                <p>"Indonesia Masa Depan: Menyuarakan Realita, Mewujudkan Indonesia Yang Kita Impikan!" Wadah young think-tank untuk merumuskan gagasan solutif demi masa depan bangsa.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-calendar-alt"></i> Timeline Pelaksanaan</h4>
+                                <ul>
+                                    <li><strong>Early Bird:</strong> 04 - 16 Agustus 2026</li>
+                                    <li><strong>Normal Registration:</strong> 17 - 25 Agustus 2026</li>
+                                    <li><strong>Fase Penjurian:</strong> 26 - 30 Agustus 2026</li>
+                                    <li><strong>Pengumuman Juara:</strong> 31 Agustus 2026</li>
+                                </ul>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-trophy"></i> Penghargaan & Benefit</h4>
+                                <ul>
+                                    <li>Uang Tunai Jutaan Rupiah untuk Juara 1, 2, 3</li>
+                                    <li>E-Sertifikat Nasional & Exclusive Instagram Showcase</li>
+                                    <li>FREE Mega Bundle 220+ Produk Digital (Senilai Rp 1.2jt)</li>
+                                </ul>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-headset"></i> Narahubung</h4>
+                                <p>WhatsApp: 0882-1071-4537<br>Instagram: @ifec_2026</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://s.id/ifec-guidebook" target="_blank" class="btn-modal-outline"><i class="fas fa-book"></i> Guidebook</a>
+                    <a href="https://s.id/ifec-pendaftaran" target="_blank" class="btn-modal-solid">Daftar Sekarang <i class="fas fa-rocket"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- MODAL CANVAS -->
+        <div id="modal-canvas" class="detail-modal-overlay" onclick="closeModalOutside(event, 'modal-canvas')">
+            <div class="detail-modal-container">
+                <div class="modal-header">
+                    <h3>National SDGs Canvas 2026</h3>
+                    <button class="close-modal" onclick="closeModal('modal-canvas')"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-split">
+                        <div class="modal-left">
+                            <img src="assets/poster-sdgscanvas2026.webp" alt="Poster SDGs Canvas">
+                        </div>
+                        <div class="modal-right">
+                            <div class="modal-section">
+                                <h4><i class="fas fa-info-circle"></i> Deskripsi Program</h4>
+                                <p>Kompetisi Bisnis SDGs PERTAMA di Indonesia! Merancang model bisnis berdampak dengan 8 pilar pilihan SDGs untuk masa depan berkelanjutan.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-calendar-alt"></i> Timeline Pendaftaran</h4>
+                                <ul>
+                                    <li><strong>Gel 1 (Early Bird):</strong> 28 Jul - 15 Ags 2026 (Rp 20.000)</li>
+                                    <li><strong>Gel 2 (Normal):</strong> 16 - 31 Ags 2026 (Rp 35.000)</li>
+                                    <li><strong>Gel 3 (Late Bird):</strong> 1 - 12 Sep 2026 (Rp 50.000)</li>
+                                </ul>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-trophy"></i> Penghargaan</h4>
+                                <p>Total Hadiah Uang Tunai Jutaan Rupiah, E-Sertifikat Nasional, serta Penghargaan Khusus SDGs Innovator Award.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-headset"></i> Narahubung</h4>
+                                <p>WhatsApp: +62 838-9804-9886<br>Instagram: @aksa_inovasi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://clips.id/SCI-Guidebook" target="_blank" class="btn-modal-outline"><i class="fas fa-book"></i> Guidebook</a>
+                    <a href="https://clips.id/SCI-Pendaftaran" target="_blank" class="btn-modal-solid">Daftar Sekarang <i class="fas fa-rocket"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL ESSAY -->
+        <div id="modal-essay" class="detail-modal-overlay" onclick="closeModalOutside(event, 'modal-essay')">
+            <div class="detail-modal-container">
+                <div class="modal-header">
+                    <h3>National SDGs Essay 2026</h3>
+                    <button class="close-modal" onclick="closeModal('modal-essay')"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-split">
+                        <div class="modal-left">
+                            <img src="assets/poster-sdgsessay2026.webp" alt="Poster SDGs Essay">
+                        </div>
+                        <div class="modal-right">
+                            <div class="modal-section">
+                                <h4><i class="fas fa-info-circle"></i> Deskripsi Program</h4>
+                                <p>Ajang penajaman analisis solutif melalui karya ilmiah berdasarkan pilar-pilar Sustainable Development Goals (SDGs).</p>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-calendar-alt"></i> Timeline Pendaftaran</h4>
+                                <ul>
+                                    <li><strong>Gel 1 (Early Bird):</strong> 28 Jul - 15 Ags 2026 (Rp 20.000)</li>
+                                    <li><strong>Gel 2 (Normal):</strong> 16 - 31 Ags 2026 (Rp 35.000)</li>
+                                    <li><strong>Gel 3 (Late Bird):</strong> 1 - 12 Sep 2026 (Rp 50.000)</li>
+                                </ul>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-trophy"></i> Penghargaan</h4>
+                                <p>Total Hadiah Uang Tunai Jutaan Rupiah, Best Paper Award, Best Idea Award, dan E-Sertifikat Tingkat Nasional.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-headset"></i> Narahubung</h4>
+                                <p>WhatsApp: +62 838-9804-9886<br>Instagram: @aksa_inovasi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://clips.id/SEI-Guidebook" target="_blank" class="btn-modal-outline"><i class="fas fa-book"></i> Guidebook</a>
+                    <a href="https://clips.id/SEI-Pendaftaran" target="_blank" class="btn-modal-solid">Daftar Sekarang <i class="fas fa-rocket"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function openModal(id) {
+                document.getElementById(id).classList.add('active');
+                document.body.style.overflow = 'hidden'; 
+            }
+            function closeModal(id) {
+                document.getElementById(id).classList.remove('active');
+                document.body.style.overflow = 'auto'; 
+            }
+            function closeModalOutside(event, id) {
+                if (event.target.id === id) { closeModal(id); }
+            }
+        </script>
+    </section>
+
+    <footer class="footer-premium">
+        <div class="container">
+            <div class="footer-bottom" data-aos="fade-in" data-aos-delay="100">
+                <div class="copyright">
+                    &copy; 2026 Pusat Bisnis Nasional. All Rights Reserved.
+                </div>
+                <div class="footer-social-mini">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=pusatbisnisnasional@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+                    <a href="https://www.instagram.com/pusbisnas/" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

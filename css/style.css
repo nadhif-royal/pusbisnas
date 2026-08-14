@@ -593,9 +593,72 @@ body.light-mode .info-box:hover .tag {
 ======================================================== */
 .premium-card, .achievement-card, .service-card, .feature-card, .info-box, .stat-box, .premium-card-light {
     -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px); /* Ditambahkan agar VS Code tidak memberikan warning */
+    backdrop-filter: blur(10px);
     backface-visibility: hidden;
-    transform: translateZ(0); /* Hardware Acceleration murni */
+    transform: translateZ(0);
     will-change: transform, background-color, box-shadow;
-    /* transition !important dihapus agar AOS (Animate On Scroll) bisa berjalan perlahan & natural kembali */
 }
+
+/* ========================================================
+   10. POSTER CARDS & DYNAMIC MODALS
+======================================================== */
+.ongoing-section { background: linear-gradient(to bottom, var(--navy-bg), #020710); position: relative; z-index: 5; }
+.poster-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; margin-top: 20px; }
+.poster-card { background: rgba(17, 34, 64, 0.4); border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: var(--transition-slow); backdrop-filter: blur(10px); display: flex; flex-direction: column; }
+.poster-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); border-color: rgba(200, 157, 40, 0.4); }
+
+.poster-img-wrapper { position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden; background: #0B1121; }
+.poster-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.poster-card:hover .poster-img { transform: scale(1.08); }
+.status-tag-img { position: absolute; top: 15px; left: 15px; background: rgba(200, 157, 40, 0.95); color: #000; padding: 6px 14px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; z-index: 2; text-transform: uppercase; letter-spacing: 1px; }
+
+.poster-content { padding: 30px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+.poster-title { font-size: 1.35rem; color: #fff; margin-bottom: 15px; font-family: 'Playfair Display', serif; line-height: 1.4; }
+.poster-meta { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
+.poster-meta span { display: flex; align-items: center; gap: 8px; }
+.poster-meta i { color: var(--gold-main); }
+.btn-detail-card { width: 100%; background: transparent; border: 1px solid var(--gold-main); color: var(--gold-light); padding: 14px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.3s ease; font-family: 'Poppins', sans-serif; }
+.btn-detail-card:hover { background: var(--gold-gradient); color: var(--navy-bg); box-shadow: 0 5px 15px rgba(200,157,40,0.3); }
+
+/* --- Overlay Modal Detail --- */
+.detail-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 11, 23, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.4s ease; padding: 20px; }
+.detail-modal-overlay.active { opacity: 1; visibility: visible; }
+.detail-modal-container { background: var(--navy-card); width: 100%; max-width: 950px; max-height: 90vh; border-radius: 24px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; transform: translateY(30px) scale(0.95); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+.detail-modal-overlay.active .detail-modal-container { transform: translateY(0) scale(1); }
+
+.modal-header { padding: 20px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; background: rgba(17, 34, 64, 0.5); }
+.modal-header h3 { color: #fff; font-size: 1.3rem; margin: 0; font-family: 'Playfair Display', serif; }
+.close-modal { background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; transition: 0.3s; }
+.close-modal:hover { color: #ef4444; transform: rotate(90deg); }
+
+.modal-body { overflow-y: auto; padding: 0; display: flex; flex-direction: column; }
+.modal-split { display: grid; grid-template-columns: 1fr 1.5fr; }
+.modal-left { background: #000; padding: 0; display: flex; align-items: center; justify-content: center; }
+.modal-left img { width: 100%; height: 100%; object-fit: cover; max-height: 600px; }
+.modal-right { padding: 30px 40px; }
+
+.modal-section { margin-bottom: 25px; }
+.modal-section h4 { color: var(--gold-light); font-size: 1.1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px dashed rgba(200,157,40,0.2); padding-bottom: 8px; }
+.modal-section p, .modal-section ul { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+.modal-section ul { padding-left: 15px; margin-top: 10px; }
+.modal-section li { margin-bottom: 8px; }
+.modal-section li strong { color: #fff; }
+
+.modal-footer { padding: 20px 30px; border-top: 1px solid rgba(255,255,255,0.05); background: rgba(17, 34, 64, 0.8); display: flex; justify-content: flex-end; gap: 15px; }
+.btn-modal-outline { padding: 12px 25px; border-radius: 10px; border: 1px solid var(--text-muted); color: var(--text-muted); text-decoration: none; transition: 0.3s; font-weight: 500; }
+.btn-modal-outline:hover { background: rgba(255,255,255,0.05); color: #fff; }
+.btn-modal-solid { padding: 12px 30px; border-radius: 10px; background: var(--gold-gradient); color: var(--navy-bg); text-decoration: none; font-weight: 700; transition: 0.3s; box-shadow: 0 5px 15px rgba(200,157,40,0.3); }
+.btn-modal-solid:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(200,157,40,0.5); }
+
+/* --- Light Mode Overrides for Modals --- */
+body.light-mode .poster-card { background: #fff; border-color: rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+body.light-mode .poster-card:hover { border-color: var(--gold-main); }
+body.light-mode .poster-title { color: #0B1121; }
+body.light-mode .detail-modal-container { background: #fff; }
+body.light-mode .modal-header { background: #F8FAFC; border-color: rgba(0,0,0,0.05); }
+body.light-mode .modal-header h3 { color: #0B1121; }
+body.light-mode .modal-footer { background: #F8FAFC; border-color: rgba(0,0,0,0.05); }
+body.light-mode .modal-section li strong { color: #0B1121; }
+
+@media (max-width: 992px) { .modal-split { grid-template-columns: 1fr; } .modal-left img { max-height: 400px; } .modal-right { padding: 25px; } }
+@media (max-width: 768px) { .poster-img-wrapper { aspect-ratio: 1/1; } }
