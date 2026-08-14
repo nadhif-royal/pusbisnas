@@ -622,54 +622,64 @@ body.light-mode .info-box:hover .tag {
 .btn-detail-card { width: 100%; background: transparent; border: 1px solid var(--gold-main); color: var(--gold-light); padding: 14px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.3s ease; font-family: 'Poppins', sans-serif; }
 .btn-detail-card:hover { background: var(--gold-gradient); color: var(--navy-bg); box-shadow: 0 5px 15px rgba(200,157,40,0.3); }
 
-/* --- Overlay Modal Detail --- */
+/* --- Overlay Modal Detail (PREMIUM INFO-CARDS REDESIGN) --- */
 .detail-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 11, 23, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.4s ease; padding: 20px; }
 .detail-modal-overlay.active { opacity: 1; visibility: visible; }
 
-/* FIX 3: Container Flex Column dengan max-height tegas */
-.detail-modal-container { background: var(--navy-card); width: 100%; max-width: 950px; max-height: 90vh; border-radius: 24px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; transform: translateY(30px) scale(0.95); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+/* Modal diperlebar jadi 1150px agar poster dan info-cards leluasa */
+.detail-modal-container { background: var(--navy-bg); width: 100%; max-width: 1150px; max-height: 90vh; border-radius: 24px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; transform: translateY(30px) scale(0.95); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
 .detail-modal-overlay.active .detail-modal-container { transform: translateY(0) scale(1); }
 
-.modal-header { padding: 20px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; background: rgba(17, 34, 64, 0.5); }
-.modal-header h3 { color: #fff; font-size: 1.3rem; margin: 0; font-family: 'Playfair Display', serif; }
-
-/* FIX 3: Tombol Close Dibuat Bulat dan Tegas */
+/* Header & Footer dikunci (sticky) dengan z-index */
+.modal-header { padding: 20px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; background: rgba(10, 25, 47, 0.95); z-index: 10; }
+.modal-header h3 { color: #fff; font-size: 1.4rem; margin: 0; font-family: 'Playfair Display', serif; }
 .close-modal { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: 0.3s; }
 .close-modal:hover { background: #ef4444; border-color: #ef4444; transform: rotate(90deg); }
 
-/* FIX 3: 'flex: 1' & 'min-height: 0' mengunci Scroll hanya di area Body */
-.modal-body { overflow-y: auto; padding: 0; display: flex; flex-direction: column; flex: 1; min-height: 0; }
-.modal-split { display: grid; grid-template-columns: 1fr 1.5fr; height: 100%; }
-
-/* FIX 2: Background gelap, ada padding lega, dan object-fit: contain agar poster UTUH 100% */
-.modal-left { background: #030812; padding: 30px; display: flex; align-items: center; justify-content: center; }
-.modal-left img { width: 100%; height: 100%; object-fit: contain; max-height: 70vh; border-radius: 12px; }
-
-.modal-right { padding: 30px 40px; }
-.modal-section { margin-bottom: 25px; }
-.modal-section h4 { color: var(--gold-light); font-size: 1.1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px dashed rgba(200,157,40,0.2); padding-bottom: 8px; }
-.modal-section p, .modal-section ul { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
-.modal-section ul { padding-left: 15px; margin-top: 10px; }
-.modal-section li { margin-bottom: 8px; }
-.modal-section li strong { color: #fff; }
-
-.modal-footer { padding: 20px 30px; border-top: 1px solid rgba(255,255,255,0.05); background: rgba(17, 34, 64, 0.8); display: flex; justify-content: flex-end; gap: 15px; }
+.modal-footer { padding: 20px 30px; border-top: 1px solid rgba(255,255,255,0.05); background: rgba(10, 25, 47, 0.95); display: flex; justify-content: flex-end; gap: 15px; z-index: 10; }
 .btn-modal-outline { padding: 12px 25px; border-radius: 10px; border: 1px solid var(--text-muted); color: var(--text-muted); text-decoration: none; transition: 0.3s; font-weight: 500; }
 .btn-modal-outline:hover { background: rgba(255,255,255,0.05); color: #fff; }
 .btn-modal-solid { padding: 12px 30px; border-radius: 10px; background: var(--gold-gradient); color: var(--navy-bg); text-decoration: none; font-weight: 700; transition: 0.3s; box-shadow: 0 5px 15px rgba(200,157,40,0.3); }
 .btn-modal-solid:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(200,157,40,0.5); }
 
-/* --- Light Mode Overrides for Modals --- */
+/* Layout Utama dalam Modal */
+.modal-body { overflow-y: auto; padding: 35px 40px; display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.modal-split { display: flex; gap: 40px; align-items: flex-start; } /* Flex-start wajib agar posisi sticky berfungsi */
+
+/* Kiri: Poster Besar (Sticky) - Tanpa Box Hitam */
+.modal-left { flex: 0 0 380px; position: sticky; top: 0; }
+.modal-left img { width: 100%; height: auto; object-fit: contain; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); }
+
+/* Kanan: Widget Info-Cards */
+.modal-right { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+.modal-section { background: rgba(17, 34, 64, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 25px 30px; border-radius: 16px; transition: var(--transition-fast); }
+.modal-section:hover { border-color: rgba(200, 157, 40, 0.3); background: rgba(17, 34, 64, 0.6); box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translateY(-3px); }
+.modal-section h4 { color: var(--gold-main); font-size: 1.15rem; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-weight: 600; font-family: 'Poppins', sans-serif; border-bottom: none; padding-bottom: 0; }
+.modal-section h4 i { font-size: 1.3rem; }
+.modal-section p, .modal-section ul { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin: 0; }
+.modal-section ul { padding-left: 15px; margin-top: 8px; }
+.modal-section li { margin-bottom: 8px; }
+.modal-section li strong { color: #fff; }
+
+/* --- Light Mode Overrides --- */
 body.light-mode .poster-card { background: #fff; border-color: rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
 body.light-mode .poster-card:hover { border-color: var(--gold-main); }
 body.light-mode .poster-title { color: #0B1121; }
-body.light-mode .detail-modal-container { background: #fff; }
-body.light-mode .modal-header { background: #F8FAFC; border-color: rgba(0,0,0,0.05); }
+body.light-mode .detail-modal-container { background: #F4F7F9; border-color: rgba(0,0,0,0.1); }
+body.light-mode .modal-header { background: #FFFFFF; border-bottom-color: rgba(0,0,0,0.08); }
 body.light-mode .modal-header h3 { color: #0B1121; }
 body.light-mode .close-modal { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); color: #0B1121; }
 body.light-mode .close-modal:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
-body.light-mode .modal-footer { background: #F8FAFC; border-color: rgba(0,0,0,0.05); }
+body.light-mode .modal-footer { background: #FFFFFF; border-top-color: rgba(0,0,0,0.08); }
+body.light-mode .modal-left img { border-color: rgba(0,0,0,0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+body.light-mode .modal-section { background: #FFFFFF; border-color: rgba(0,0,0,0.08); box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+body.light-mode .modal-section:hover { border-color: var(--gold-main); background: #FFFFFF; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
 body.light-mode .modal-section li strong { color: #0B1121; }
 
-@media (max-width: 992px) { .modal-split { grid-template-columns: 1fr; } .modal-left img { max-height: 400px; } .modal-right { padding: 25px; } }
+/* Responsive adjustments */
+@media (max-width: 992px) { 
+    .modal-split { flex-direction: column; gap: 30px; } 
+    .modal-left { position: relative; width: 100%; max-width: 450px; margin: 0 auto; flex: auto; }
+    .modal-body { padding: 30px 25px; }
+}
 @media (max-width: 768px) { .poster-img-wrapper { aspect-ratio: 1/1; } }
