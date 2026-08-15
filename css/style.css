@@ -587,7 +587,8 @@ body.light-mode .info-box:hover .tag {
 /* ========================================================
    10. POSTER CARDS & DYNAMIC MODALS
 ======================================================== */
-.ongoing-section { background: linear-gradient(to bottom, var(--navy-bg), #020710); position: relative; z-index: 5; }
+/* FIX FATAL: Hapus z-index: 5 agar Modal Overlay bisa menembus dan menutupi Navbar 100%! */
+.ongoing-section { background: linear-gradient(to bottom, var(--navy-bg), #020710); position: relative; z-index: auto; }
 .poster-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; margin-top: 20px; }
 .poster-card { background: rgba(17, 34, 64, 0.4); border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: var(--transition-slow); backdrop-filter: blur(10px); display: flex; flex-direction: column; }
 .poster-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); border-color: rgba(200, 157, 40, 0.4); }
@@ -611,16 +612,16 @@ body.light-mode .info-box:hover .tag {
 .btn-detail-card { width: 100%; background: transparent; border: 1px solid var(--gold-main); color: var(--gold-light); padding: 14px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.3s ease; font-family: 'Poppins', sans-serif; }
 .btn-detail-card:hover { background: var(--gold-gradient); color: var(--navy-bg); box-shadow: 0 5px 15px rgba(200,157,40,0.3); }
 
-/* --- Overlay Modal Detail (ULTIMATE FIX) --- */
-/* Z-index dinaikkan jadi 99999 agar 100% di atas navbar (z-index 1000) */
-.detail-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 11, 23, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 99999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.4s ease; padding: 20px; }
+/* --- Overlay Modal Detail (ANTI-CUTOFF FIX) --- */
+/* Overlay menutup 100% layar & align-items: flex-start memastikan modal SELALU MULAI DARI ATAS, tidak terdorong keluar layar */
+.detail-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 11, 23, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 999999; display: flex; align-items: flex-start; justify-content: center; opacity: 0; visibility: hidden; transition: 0.4s ease; padding: 5vh 20px; overflow-y: auto; }
 
 /* Menghapus warna putih paksaan dan menyerahkan warnanya ke CSS default */
 .modal-section p.highlight-quote { font-weight: 500; color: var(--text-main); font-size: 1.05rem; margin-bottom: 10px; border-left: 3px solid var(--gold-main); padding-left: 15px; }
 .detail-modal-overlay.active { opacity: 1; visibility: visible; }
 
-/* Wadah di-lock maksimal 90% tinggi layar. Tidak akan nabrak Navbar! */
-.detail-modal-container { background: var(--navy-bg); width: 100%; max-width: 1100px; height: 90vh; border-radius: 24px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; transform: translateY(30px) scale(0.95); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 30px 60px rgba(0,0,0,0.6); overflow: hidden; }
+/* Modal Container (Margin auto = otomatis ke tengah jika muat, height auto = bebas susut sesuai layar) */
+.detail-modal-container { background: var(--navy-bg); width: 100%; max-width: 1100px; height: auto; max-height: 90vh; margin: auto; border-radius: 24px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; transform: translateY(30px) scale(0.95); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 30px 60px rgba(0,0,0,0.6); overflow: hidden; }
 .detail-modal-overlay.active .detail-modal-container { transform: translateY(0) scale(1); }
 
 /* Header dengan Layout Logo Baru (Anti Susut) */
