@@ -93,46 +93,31 @@ section { padding: 80px 0; }
 .premium-card-light:hover { background: rgba(17, 34, 64, 0.6); border-color: rgba(200, 157, 40, 0.2); transform: scale(1.02); }
 .premium-card-light .lead { font-size: 1.15rem; color: #fff; line-height: 1.8; margin-bottom: 30px; }
 
-/* Hover Item pada Siapa Kami */
-.about-highlights { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; list-style: none; padding: 0; }
-.about-highlights li { display: block; }
-.highlight-item { 
-    display: flex; 
-    flex-direction: row; /* Memaksa ikon dan teks bersebelahan */
-    align-items: center; /* Sejajar secara vertikal */
-    justify-content: center; /* Presisi di tengah-tengah kotak */
-    gap: 12px; 
-    background: rgba(255, 255, 255, 0.03); 
-    padding: 14px 28px; /* Padding dilebarkan sedikit agar proporsional */
-    border-radius: 50px; 
-    border: 1px solid rgba(200, 157, 40, 0.2); 
-    transition: var(--transition-fast); 
-    cursor: default; 
-}
+/* Hover Item pada Siapa Kami (Modern Bento Grid UI) */
+.about-highlights { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; list-style: none; padding: 0; text-align: left; }
+.about-highlights > div { display: flex; width: 100%; }
+.highlight-item { display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 18px; background: rgba(10, 25, 47, 0.6); padding: 18px 24px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); transition: var(--transition-fast); cursor: default; width: 100%; backdrop-filter: blur(10px); }
+.highlight-item:hover { background: rgba(17, 34, 64, 0.8); border-color: var(--gold-main); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
 
-.highlight-item:hover { 
-    background: rgba(200, 157, 40, 0.1); 
-    border-color: var(--gold-main); 
-    transform: translateY(-5px) scale(1.05); 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
+/* Icon Box Modern */
+.highlight-icon { width: 48px; height: 48px; background: rgba(200,157,40,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--gold-light); flex-shrink: 0; transition: var(--transition-fast); }
+.highlight-item:hover .highlight-icon { background: var(--gold-main); color: var(--navy-bg); transform: scale(1.1) rotate(-10deg); box-shadow: 0 5px 15px rgba(200, 157, 40, 0.3); }
 
-/* Memastikan ikon (termasuk FontAwesome) proporsional */
-.highlight-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    color: var(--gold-light);
-}
+/* Teks Hirarki (Judul & Subjudul) */
+.highlight-text { display: flex; flex-direction: column; gap: 4px; }
+.highlight-text strong { color: #fff; font-size: 1.05rem; font-weight: 600; font-family: 'Poppins', sans-serif; line-height: 1.3; transition: var(--transition-fast); }
+.highlight-item:hover .highlight-text strong { color: var(--gold-light); }
+.highlight-text span { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; font-weight: 400; }
 
-/* Memastikan teks tetap rapi */
-.highlight-item span {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text-main);
-    text-align: left;
-}
+/* Menimpa Light Mode untuk Bento Grid */
+body.light-mode .highlight-item { background: #FFFFFF; border-color: rgba(11, 17, 33, 0.08); box-shadow: 0 8px 20px rgba(11, 17, 33, 0.03); }
+body.light-mode .highlight-item:hover { border-color: var(--gold-main); background: #FFFFFF; box-shadow: 0 15px 30px rgba(200, 157, 40, 0.15); }
+body.light-mode .highlight-text strong { color: #0B1121; }
+body.light-mode .highlight-text span { color: #475569; }
+body.light-mode .highlight-icon { background: rgba(200, 157, 40, 0.1); color: var(--gold-main); }
+body.light-mode .highlight-item:hover .highlight-icon { background: var(--gold-main); color: #fff; }
+
+@media (max-width: 768px) { .about-highlights { grid-template-columns: 1fr; } }
 
 /* GRID FITUR */
 .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
