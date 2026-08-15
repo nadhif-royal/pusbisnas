@@ -599,6 +599,10 @@ body.light-mode .info-box:hover .tag {
 /* FIX 1: Pindahkan Tag Status ke pojok Kiri Bawah agar judul poster aman */
 .status-tag-img { position: absolute; bottom: 15px; left: 15px; top: auto; background: rgba(200, 157, 40, 0.95); color: #000; padding: 6px 14px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; z-index: 2; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
 
+/* Overlay Logo Mini (Penyelenggara & Acara) */
+.poster-logos-overlay { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; z-index: 2; }
+.poster-mini-logo { height: 38px; width: 38px; object-fit: contain; background: rgba(255, 255, 255, 0.95); padding: 5px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); backdrop-filter: blur(4px); }
+
 .poster-content { padding: 30px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
 .poster-title { font-size: 1.35rem; color: #fff; margin-bottom: 15px; font-family: 'Playfair Display', serif; line-height: 1.4; }
 .poster-meta { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
@@ -607,33 +611,71 @@ body.light-mode .info-box:hover .tag {
 .btn-detail-card { width: 100%; background: transparent; border: 1px solid var(--gold-main); color: var(--gold-light); padding: 14px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.3s ease; font-family: 'Poppins', sans-serif; }
 .btn-detail-card:hover { background: var(--gold-gradient); color: var(--navy-bg); box-shadow: 0 5px 15px rgba(200,157,40,0.3); }
 
-/* --- Overlay Modal Detail (PREMIUM INFO-CARDS REDESIGN) --- */
-.detail-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 11, 23, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.4s ease; padding: 20px; }
+/* --- Overlay Modal Detail (ULTIMATE FIX) --- */
+/* Z-index dinaikkan jadi 99999 agar 100% di atas navbar (z-index 1000) */
+.detail-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 11, 23, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 99999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.4s ease; padding: 20px; }
+
+/* Menghapus warna putih paksaan dan menyerahkan warnanya ke CSS default */
+.modal-section p.highlight-quote { font-weight: 500; color: var(--text-main); font-size: 1.05rem; margin-bottom: 10px; border-left: 3px solid var(--gold-main); padding-left: 15px; }
 .detail-modal-overlay.active { opacity: 1; visibility: visible; }
 
-/* Modal diperlebar jadi 1150px agar poster dan info-cards leluasa */
-.detail-modal-container { background: var(--navy-bg); width: 100%; max-width: 1150px; max-height: 90vh; border-radius: 24px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; transform: translateY(30px) scale(0.95); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+/* Wadah di-lock maksimal 90% tinggi layar. Tidak akan nabrak Navbar! */
+.detail-modal-container { background: var(--navy-bg); width: 100%; max-width: 1100px; height: 90vh; border-radius: 24px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; transform: translateY(30px) scale(0.95); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 30px 60px rgba(0,0,0,0.6); overflow: hidden; }
 .detail-modal-overlay.active .detail-modal-container { transform: translateY(0) scale(1); }
 
-/* Header & Footer dikunci (sticky) dengan z-index */
-.modal-header { padding: 20px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; background: rgba(10, 25, 47, 0.95); z-index: 10; }
-.modal-header h3 { color: #fff; font-size: 1.4rem; margin: 0; font-family: 'Playfair Display', serif; }
-.close-modal { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: 0.3s; }
+/* Header dengan Layout Logo Baru (Anti Susut) */
+.modal-header { padding: 20px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; background: rgba(10, 25, 47, 0.95); flex-shrink: 0; }
+.modal-header-brand { display: flex; align-items: center; gap: 15px; }
+.modal-header-logos { display: flex; gap: 8px; }
+.modal-header-logos img { width: 36px; height: 36px; object-fit: contain; background: #fff; padding: 4px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.modal-header h3 { color: #fff; font-size: 1.3rem; margin: 0; font-family: 'Playfair Display', serif; }
+
+.close-modal { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
 .close-modal:hover { background: #ef4444; border-color: #ef4444; transform: rotate(90deg); }
 
-.modal-footer { padding: 20px 30px; border-top: 1px solid rgba(255,255,255,0.05); background: rgba(10, 25, 47, 0.95); display: flex; justify-content: flex-end; gap: 15px; z-index: 10; }
+/* Footer (Anti Susut) */
+.modal-footer { padding: 20px 30px; border-top: 1px solid rgba(255,255,255,0.05); background: rgba(10, 25, 47, 0.95); display: flex; justify-content: flex-end; gap: 15px; flex-shrink: 0; }
 .btn-modal-outline { padding: 12px 25px; border-radius: 10px; border: 1px solid var(--text-muted); color: var(--text-muted); text-decoration: none; transition: 0.3s; font-weight: 500; }
 .btn-modal-outline:hover { background: rgba(255,255,255,0.05); color: #fff; }
 .btn-modal-solid { padding: 12px 30px; border-radius: 10px; background: var(--gold-gradient); color: var(--navy-bg); text-decoration: none; font-weight: 700; transition: 0.3s; box-shadow: 0 5px 15px rgba(200,157,40,0.3); }
 .btn-modal-solid:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(200,157,40,0.5); }
 
-/* Layout Utama dalam Modal */
-.modal-body { overflow-y: auto; padding: 35px 40px; display: flex; flex-direction: column; flex: 1; min-height: 0; }
-.modal-split { display: flex; gap: 40px; align-items: flex-start; } /* Flex-start wajib agar posisi sticky berfungsi */
+/* Body Area Scroll Internal */
+.modal-body { padding: 30px 40px; display: flex; flex-direction: column; flex: 1; min-height: 0; overflow-y: auto; }
+.modal-split { display: flex; gap: 40px; align-items: flex-start; } 
 
-/* Kiri: Poster Besar (Sticky) - Tanpa Box Hitam */
-.modal-left { flex: 0 0 380px; position: sticky; top: 0; }
-.modal-left img { width: 100%; height: auto; object-fit: contain; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); }
+/* Poster Murni 100% utuh tanpa dihalangi */
+.modal-left { flex: 0 0 350px; position: sticky; top: 0; }
+.modal-left img { width: 100%; height: auto; object-fit: contain; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); display: block; }
+
+/* Kanan: Widget Info-Cards */
+.modal-right { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+.modal-section { background: rgba(17, 34, 64, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 25px 30px; border-radius: 16px; transition: var(--transition-fast); }
+.modal-section:hover { border-color: rgba(200, 157, 40, 0.3); background: rgba(17, 34, 64, 0.6); box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translateY(-3px); }
+.modal-section h4 { color: var(--gold-main); font-size: 1.15rem; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-weight: 600; font-family: 'Poppins', sans-serif; border-bottom: none; padding-bottom: 0; }
+.modal-section h4 i { font-size: 1.3rem; }
+.modal-section p, .modal-section ul { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin: 0; }
+.modal-section ul { padding-left: 15px; margin-top: 8px; }
+.modal-section li { margin-bottom: 8px; }
+.modal-section li strong { color: #fff; }
+
+/* --- Light Mode Overrides --- */
+body.light-mode .detail-modal-container { background: #F4F7F9; border-color: rgba(0,0,0,0.1); }
+body.light-mode .modal-header { background: #FFFFFF; border-bottom-color: rgba(0,0,0,0.08); }
+body.light-mode .modal-header h3 { color: #0B1121; }
+body.light-mode .close-modal { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); color: #0B1121; }
+body.light-mode .close-modal:hover { background: #ef4444; border-color: #ef4444; color: #fff; }
+body.light-mode .modal-footer { background: #FFFFFF; border-top-color: rgba(0,0,0,0.08); }
+body.light-mode .modal-left img { border-color: rgba(0,0,0,0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+body.light-mode .modal-section { background: #FFFFFF; border-color: rgba(0,0,0,0.08); box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+body.light-mode .modal-section:hover { border-color: var(--gold-main); background: #FFFFFF; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+body.light-mode .modal-section li strong { color: #0B1121; }
+
+@media (max-width: 992px) { 
+    .modal-split { flex-direction: column; gap: 30px; } 
+    .modal-left { position: relative; width: 100%; max-width: 450px; margin: 0 auto; flex: auto; }
+    .modal-body { padding: 30px 25px; }
+}
 
 /* Kanan: Widget Info-Cards */
 .modal-right { flex: 1; display: flex; flex-direction: column; gap: 20px; }
