@@ -68,7 +68,7 @@
             </div>
             <div class="about-content">
                 <div class="about-text-box premium-card-light" data-aos="zoom-in-up" data-aos-duration="1000">
-                    <p class="lead"><strong>Pusat Bisnis Nasional (Pusbisnas)</strong> adalah wadah inspirasi dan entitas penyelenggara (organizer) yang berdedikasi untuk mengembangkan kompetensi bisnis bagi pelajar dan mahasiswa di seluruh Indonesia.</p>
+                    <p class="lead" id="teks-tentang-kami"><strong>Pusat Bisnis Nasional (Pusbisnas)</strong> adalah wadah inspirasi dan entitas penyelenggara (organizer) yang berdedikasi untuk mengembangkan kompetensi bisnis bagi pelajar dan mahasiswa di seluruh Indonesia.</p>
                     
                     <ul class="about-highlights mt-4">
                         <div data-aos="fade-up" data-aos-delay="100">
@@ -920,5 +920,48 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="js/main.js"></script>
+
+    <!-- ============================================== -->
+    <!-- SCRIPT FIREBASE UNTUK CMS PUSBISNAS -->
+    <!-- ============================================== -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+      import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyARWa3rTSLxoaLBqYT09URuHuUyhH0SkJE",
+        authDomain: "pusbisnas-cms.firebaseapp.com",
+        projectId: "pusbisnas-cms",
+        storageBucket: "pusbisnas-cms.firebasestorage.app",
+        messagingSenderId: "265564239360",
+        appId: "1:265564239360:web:dca3b3d266572bb0248ae5"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      async function ambilDataTentangKami() {
+        try {
+          const docRef = doc(db, "web_content", "tentang_kami");
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            // Cek apakah elemen ada, lalu timpa isinya dengan data dari Firebase
+            const targetElemen = document.getElementById("teks-tentang-kami");
+            if(targetElemen) {
+                targetElemen.innerHTML = data.deskripsi;
+                console.log("Sukses: Data CMS Tentang Kami berhasil ditarik!");
+            }
+          } else {
+            console.log("Error: Data tidak ditemukan di database.");
+          }
+        } catch (error) {
+          console.error("Gagal terhubung ke Firebase:", error);
+        }
+      }
+
+      ambilDataTentangKami();
+    </script>
 </body>
 </html>
