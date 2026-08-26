@@ -79,7 +79,6 @@ git clone [https://github.com/username-anda/nama-repo-pusbisnas.git](https://git
 
 * 📧 **Email:** pusatbisnisnasional@gmail.com
 * 📸 **Instagram Pusbisnas:** [@pusbisnas](https://www.instagram.com/pusbisnas/)
-* 🎯 **Instagram Canvas Indonesia:** [@canvas_indonesia](https://www.instagram.com/canvas_indonesia/)
 
 ---
 
