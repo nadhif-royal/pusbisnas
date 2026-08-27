@@ -269,57 +269,8 @@
                 <div class="gold-line"></div>
             </div>
 
-            <div class="poster-grid">
-                <!-- Card 1: IFEC 2026 -->
-                <div class="poster-card" data-aos="fade-up" data-aos-duration="800">
-                    <div class="poster-img-wrapper">
-                        <div class="status-tag-img">Pendaftaran Buka</div>
-                        <img src="assets/poster-ifec2026.webp" alt="Poster IFEC 2026" class="poster-img">
-                    </div>
-                    <div class="poster-content">
-                        <span class="tag" style="font-size: 0.75rem; margin-bottom: 10px; display: inline-block;">Essay Competition</span>
-                        <h3 class="poster-title">Indonesia Future Essay Competition 2026</h3>
-                        <div class="poster-meta">
-                            <span><i class="fas fa-ticket-alt"></i> Mulai Rp 20.000</span>
-                            <span><i class="fas fa-users"></i> Individu / Tim</span>
-                        </div>
-                        <button class="btn-detail-card" onclick="openModal('modal-ifec')">Lihat Detail <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </div>
-
-                <!-- Card 2: SDGs Canvas -->
-                <div class="poster-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-                    <div class="poster-img-wrapper">
-                        <div class="status-tag-img">Pendaftaran Buka</div>
-                        <img src="assets/poster-sdgscanvas2026.webp" alt="Poster SDGs Canvas" class="poster-img">
-                    </div>
-                    <div class="poster-content">
-                        <span class="tag" style="font-size: 0.75rem; margin-bottom: 10px; display: inline-block;">BMC Competition</span>
-                        <h3 class="poster-title">National SDGs Business Model Canvas 2026</h3>
-                        <div class="poster-meta">
-                            <span><i class="fas fa-ticket-alt"></i> Mulai Rp 20.000</span>
-                            <span><i class="fas fa-users"></i> Individu / Tim</span>
-                        </div>
-                        <button class="btn-detail-card" onclick="openModal('modal-canvas')">Lihat Detail <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </div>
-
-                <!-- Card 3: SDGs Essay -->
-                <div class="poster-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-                    <div class="poster-img-wrapper">
-                        <div class="status-tag-img">Pendaftaran Buka</div>
-                        <img src="assets/poster-sdgsessay2026.webp" alt="Poster SDGs Essay" class="poster-img">
-                    </div>
-                    <div class="poster-content">
-                        <span class="tag" style="font-size: 0.75rem; margin-bottom: 10px; display: inline-block;">Essay Competition</span>
-                        <h3 class="poster-title">National SDGs Essay Competition 2026</h3>
-                        <div class="poster-meta">
-                            <span><i class="fas fa-ticket-alt"></i> Mulai Rp 20.000</span>
-                            <span><i class="fas fa-users"></i> Individu / Tim</span>
-                        </div>
-                        <button class="btn-detail-card" onclick="openModal('modal-essay')">Lihat Detail <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </div>
+            <div class="poster-grid" id="kompetisi-dinamis">
+                <!-- Data card lomba akan dimunculkan secara otomatis oleh Firebase di sini -->
             </div>
 
             <div style="text-align: center; margin-top: 50px;" data-aos="fade-up">
@@ -924,44 +875,6 @@
     <!-- ============================================== -->
     <!-- SCRIPT FIREBASE UNTUK CMS PUSBISNAS -->
     <!-- ============================================== -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-      import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyARWa3rTSLxoaLBqYT09URuHuUyhH0SkJE",
-        authDomain: "pusbisnas-cms.firebaseapp.com",
-        projectId: "pusbisnas-cms",
-        storageBucket: "pusbisnas-cms.firebasestorage.app",
-        messagingSenderId: "265564239360",
-        appId: "1:265564239360:web:dca3b3d266572bb0248ae5"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      async function ambilDataTentangKami() {
-        try {
-          const docRef = doc(db, "web_content", "tentang_kami");
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            // Cek apakah elemen ada, lalu timpa isinya dengan data dari Firebase
-            const targetElemen = document.getElementById("teks-tentang-kami");
-            if(targetElemen) {
-                targetElemen.innerHTML = data.deskripsi;
-                console.log("Sukses: Data CMS Tentang Kami berhasil ditarik!");
-            }
-          } else {
-            console.log("Error: Data tidak ditemukan di database.");
-          }
-        } catch (error) {
-          console.error("Gagal terhubung ke Firebase:", error);
-        }
-      }
-
-      ambilDataTentangKami();
-    </script>
+    <script type="module" src="js/cms.js"></script>
 </body>
 </html>
