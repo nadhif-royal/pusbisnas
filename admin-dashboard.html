@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusbisnas CMS | Dashboard</title>
+    
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0f172a] text-white font-sans min-h-screen flex flex-col hidden" id="dashboard-body">
+    <!-- Note: class 'hidden' dipasang agar halaman tidak terlihat sebelum Firebase memverifikasi login -->
+
+    <!-- Navbar Admin -->
+    <nav class="bg-[#1e293b] border-b border-gray-700 px-6 py-4 flex flex-wrap justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center gap-4">
+            <img src="assets/Logo Pusbisnas.png" alt="Pusbisnas" class="h-10 bg-white p-1 rounded">
+            <div>
+                <h1 class="text-xl font-bold text-yellow-500 font-serif leading-tight">Content Manager</h1>
+                <p class="text-xs text-green-400"><i class="fas fa-circle text-[8px]"></i> Online & Authenticated</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4 mt-4 sm:mt-0">
+            <a href="index.html" target="_blank" class="text-sm text-gray-300 hover:text-white transition"><i class="fas fa-external-link-alt"></i> Lihat Website</a>
+            <button id="btn-logout" class="bg-red-600 hover:bg-red-500 px-4 py-2 rounded text-sm font-bold transition">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 max-w-6xl flex-grow">
+        
+        <!-- Header Dashboard -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+            <div>
+                <h2 class="text-3xl font-serif text-white mb-1">Manajemen Event</h2>
+                <p class="text-gray-400 text-sm">Kelola data Ongoing Competitions & Arsip Event langsung ke Firebase.</p>
+            </div>
+            <button id="btn-tambah-data" class="bg-yellow-600 hover:bg-yellow-500 text-slate-900 px-5 py-2.5 rounded font-bold transition shadow-lg">
+                <i class="fas fa-plus-circle"></i> Tambah Event Baru
+            </button>
+        </div>
+
+        <!-- Tabel Data (Akan diisi dinamis oleh JS) -->
+        <div class="bg-[#1e293b] rounded-xl border border-gray-700 overflow-hidden shadow-xl">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse whitespace-nowrap">
+                    <thead>
+                        <tr class="bg-gray-800 text-gray-400 text-sm uppercase tracking-wider">
+                            <th class="p-5 border-b border-gray-700 font-medium">Koleksi/Tipe</th>
+                            <th class="p-5 border-b border-gray-700 font-medium">Judul Event</th>
+                            <th class="p-5 border-b border-gray-700 font-medium">Status / Tanggal</th>
+                            <th class="p-5 border-b border-gray-700 font-medium text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body-admin" class="text-sm divide-y divide-gray-700">
+                        <tr>
+                            <td colspan="4" class="p-8 text-center text-gray-500">
+                                <i class="fas fa-spinner fa-spin text-2xl mb-2"></i><br>
+                                Mengambil data dari server...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-6 border-t border-gray-800 text-sm text-gray-500 mt-auto">
+        &copy; 2026 Pusbisnas Headless CMS System.
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- MODAL FORM TAMBAH/EDIT DATA (HIDDEN)       -->
+    <!-- ========================================== -->
+    <div id="form-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-[#1e293b] rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto border border-gray-700 transform scale-95 transition-transform duration-300" id="modal-content">
+            
+            <!-- Header Modal -->
+            <div class="flex justify-between items-center p-6 border-b border-gray-700 sticky top-0 bg-[#1e293b] z-10">
+                <h3 id="modal-title" class="text-xl font-bold text-yellow-500 font-serif">
+                    <i class="fas fa-edit mr-2"></i> Form Event Baru
+                </h3>
+                <button id="btn-close-modal" class="text-gray-400 hover:text-white transition text-xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Body Modal (Form) -->
+            <div class="p-6">
+                <form id="admin-form" class="space-y-5">
+                    
+                    <!-- Placeholder untuk Input Form (Akan kita isi di tahap selanjutnya) -->
+                    <div class="text-center py-12 bg-gray-800 rounded-lg border border-dashed border-gray-600">
+                        <i class="fas fa-tools text-5xl text-gray-500 mb-4"></i>
+                        <h4 class="text-lg font-bold text-gray-300">Ruang Konstruksi Formulir</h4>
+                        <p class="text-sm text-gray-500 mt-2">Area ini akan kita penuhi dengan kolom input<br>(Judul, Logo, Deskripsi, dll) di langkah berikutnya!</p>
+                    </div>
+
+                    <!-- Footer Modal (Action Buttons) -->
+                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-700 mt-6">
+                        <button type="button" id="btn-cancel" class="px-5 py-2.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-white font-medium transition shadow">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-5 py-2.5 bg-yellow-600 hover:bg-yellow-500 text-slate-900 rounded-lg font-bold transition shadow-lg">
+                            <i class="fas fa-save mr-1"></i> Simpan Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Script khusus Admin Dashboard -->
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>

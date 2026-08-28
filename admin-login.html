@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusbisnas CMS | Login</title>
+    
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Memanggil Tailwind via CDN untuk styling instan -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0f172a] flex items-center justify-center min-h-screen text-white font-sans">
+    
+    <div class="bg-[#1e293b] p-8 rounded-xl shadow-2xl w-full max-w-md border border-gray-700" data-aos="zoom-in">
+        <div class="text-center mb-8">
+            <img src="assets/Logo Pusbisnas.png" alt="Pusbisnas" class="h-16 mx-auto mb-4 bg-white p-2 rounded">
+            <h2 class="text-2xl font-bold text-yellow-500 font-serif">Admin Portal</h2>
+            <p class="text-gray-400 text-sm mt-2">Masuk untuk mengelola konten website</p>
+        </div>
+        
+        <form id="login-form" class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Email Content Manager</label>
+                <input type="email" id="login-email" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none text-white placeholder-gray-500" placeholder="admin@pusbisnas.com">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Password</label>
+                <input type="password" id="login-password" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none text-white placeholder-gray-500" placeholder="••••••••">
+            </div>
+            
+            <p id="error-msg" class="text-red-500 text-sm hidden text-center"></p>
+
+            <button type="submit" id="btn-login" class="w-full bg-yellow-600 hover:bg-yellow-500 text-slate-900 font-bold py-3 rounded-lg transition duration-300">
+                <i class="fas fa-sign-in-alt"></i> Masuk ke Dashboard
+            </button>
+        </form>
+        
+        <div class="mt-8 text-center border-t border-gray-700 pt-6">
+            <a href="index.html" class="text-sm text-gray-400 hover:text-yellow-500 transition"><i class="fas fa-arrow-left"></i> Kembali ke Website Publik</a>
+        </div>
+    </div>
+
+    <!-- Script khusus Autentikasi (Akan kita buat nanti) -->
+    <script type="module" src="js/auth.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init();</script>
+</body>
+</html>
