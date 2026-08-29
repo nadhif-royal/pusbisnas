@@ -5,7 +5,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 // Tambahan: doc, getDoc, dan updateDoc untuk fitur Edit
-import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyARWa3rTSLxoaLBqYT09URuHuUyhH0SkJE",
@@ -78,7 +78,7 @@ function renderTableRow(id, type, title, statusDate, badgeClass) {
             <button class="text-blue-400 hover:text-white bg-blue-900 bg-opacity-30 hover:bg-blue-600 p-2 rounded transition mx-1" title="Edit Data" onclick="window.editData('${id}', '${collectionType}')">
                 <i class="fas fa-edit"></i>
             </button>
-            <button class="text-red-400 hover:text-white bg-red-900 bg-opacity-30 hover:bg-red-600 p-2 rounded transition mx-1" title="Hapus Data" onclick="alert('Fitur Hapus (Delete) akan segera dibangun!')">
+            <button class="text-red-400 hover:text-white bg-red-900 bg-opacity-30 hover:bg-red-600 p-2 rounded transition mx-1" title="Hapus Data" onclick="window.deleteData('${id}', '${collectionType}', '${title}')">
                 <i class="fas fa-trash-alt"></i>
             </button>
         </td>
@@ -120,6 +120,31 @@ window.editData = async (id, collectionType) => {
         }
     } catch (error) {
         console.error("Gagal menarik data untuk diedit:", error);
+    }
+};
+
+// -------------------------------------------------------------
+// FUNGSI BARU: HAPUS DATA (DELETE)
+// -------------------------------------------------------------
+window.deleteData = async (id, collectionType, title) => {
+    // 1. Munculkan peringatan ganda agar tidak salah hapus
+    const isConfirmed = confirm(`PERINGATAN!\nApakah Anda yakin ingin menghapus event "${title}" secara permanen?\n\nTindakan ini tidak dapat dibatalkan.`);
+    
+    if (isConfirmed) {
+        try {
+            // 2. Tembak perintah hapus ke dokumen spesifik di Firestore
+            const docRef = doc(db, collectionType, id);
+            await deleteDoc(docRef);
+            
+            console.log(`SUKSES DELETE! Data "${title}" telah dimusnahkan.`);
+            
+            // 3. Refresh tabel secara otomatis
+            loadDashboardTable(); 
+            
+        } catch (error) {
+            console.error("Gagal menghapus data:", error);
+            alert("Terjadi kesalahan sistem saat menghapus data. Cek konsol!");
+        }
     }
 };
 
