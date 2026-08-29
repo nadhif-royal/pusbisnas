@@ -94,11 +94,100 @@
             <div class="p-6">
                 <form id="admin-form" class="space-y-5">
                     
-                    <!-- Placeholder untuk Input Form (Akan kita isi di tahap selanjutnya) -->
-                    <div class="text-center py-12 bg-gray-800 rounded-lg border border-dashed border-gray-600">
-                        <i class="fas fa-tools text-5xl text-gray-500 mb-4"></i>
-                        <h4 class="text-lg font-bold text-gray-300">Ruang Konstruksi Formulir</h4>
-                        <p class="text-sm text-gray-500 mt-2">Area ini akan kita penuhi dengan kolom input<br>(Judul, Logo, Deskripsi, dll) di langkah berikutnya!</p>
+                    <!-- Kategori Koleksi (Dropdown) -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Tipe Event (Simpan Ke)</label>
+                        <select id="input-koleksi" required class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none">
+                            <option value="ongoing_competitions">Ongoing Competitions (Event Aktif)</option>
+                            <option value="completed_projects">Arsip Event (Completed)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Judul Event -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Judul Event</label>
+                            <input type="text" id="input-title" required class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="Contoh: BUFEST 2026">
+                        </div>
+
+                        <!-- Status / Tanggal (Dropdown Hybrid) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Status / Waktu</label>
+                            <!-- Tambahkan atribut list="status-options" -->
+                            <input type="text" list="status-options" id="input-status" required class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="Pilih opsi atau ketik manual...">
+                            
+                            <!-- Daftar Dropdown -->
+                            <datalist id="status-options">
+                                <option value="Pendaftaran Buka"></option>
+                                <option value="Pendaftaran Ditutup"></option>
+                                <option value="Event Telah Berakhir"></option>
+                                <option value="Segera Hadir"></option>
+                                <option value="Completed | "></option>
+                            </datalist>
+                        </div>
+                        
+                        <!-- URL Poster / Logo -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Link URL Poster/Logo</label>
+                            <input type="text" id="input-logo" required class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="Contoh: assets/BUFEST2026.webp">
+                        </div>
+
+                        <!-- Kategori/Tag (Khusus Ongoing) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Tag Kategori (Ongoing)</label>
+                            <input type="text" id="input-tag" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="Contoh: Business Plan">
+                        </div>
+
+                        <!-- Biaya Pendaftaran (Khusus Ongoing) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Biaya (Ongoing)</label>
+                            <input type="text" id="input-price" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="Contoh: Rp 20.000 / Tim">
+                        </div>
+
+                        <!-- Tipe Tim (Khusus Ongoing) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Tipe Tim (Ongoing)</label>
+                            <input type="text" id="input-team" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="Contoh: 3 Anggota">
+                        </div>
+                    </div>
+
+                    <!-- Bagian Detail Modal (Khusus Ongoing) -->
+                    <div class="border-t border-gray-700 pt-4 mt-2">
+                        <h4 class="text-yellow-500 font-bold mb-3"><i class="fas fa-layer-group mr-1"></i> Detail Pop-up Modal (Ongoing) & Deskripsi (Arsip)</h4>
+                        
+                        <div class="space-y-4">
+                            <!-- Tema Utama / Deskripsi -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Tema Utama / Deskripsi Singkat</label>
+                                <textarea id="input-modal-theme" rows="2" required class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="Contoh: Data Driven Business Innovation"></textarea>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Syarat & Ketentuan -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-1">Syarat & Ketentuan (Gunakan &lt;li&gt;)</label>
+                                    <textarea id="input-modal-syarat" rows="3" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="<li>Mahasiswa aktif D3/D4/S1</li>"></textarea>
+                                </div>
+
+                                <!-- Timeline -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-1">Timeline & Biaya (Gunakan &lt;li&gt;)</label>
+                                    <textarea id="input-modal-timeline" rows="3" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="<li>Pendaftaran: 17 - 31 Agustus 2026</li>"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Link Guidebook & Daftar -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-1">Link Guidebook</label>
+                                    <input type="text" id="input-guidebook" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="https://...">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-1">Link Pendaftaran</label>
+                                    <input type="text" id="input-daftar" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-yellow-500 outline-none" placeholder="https://...">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Footer Modal (Action Buttons) -->
