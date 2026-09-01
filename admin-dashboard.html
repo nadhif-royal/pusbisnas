@@ -36,12 +36,17 @@
         <!-- Header Dashboard -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
             <div>
-                <h2 class="text-3xl font-serif text-white mb-1">Manajemen Event</h2>
-                <p class="text-gray-400 text-sm">Kelola data Ongoing Competitions & Arsip Event langsung ke Firebase.</p>
+                <h2 class="text-3xl font-serif text-white mb-1">Manajemen Event & Konten</h2>
+                <p class="text-gray-400 text-sm">Kelola data Event dan Halaman Website langsung ke Firebase.</p>
             </div>
-            <button id="btn-tambah-data" class="bg-yellow-600 hover:bg-yellow-500 text-slate-900 px-5 py-2.5 rounded font-bold transition shadow-lg">
-                <i class="fas fa-plus-circle"></i> Tambah Event Baru
-            </button>
+            <div class="flex gap-3">
+                <button id="btn-edit-tentang" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded font-bold transition shadow-lg">
+                    <i class="fas fa-file-alt"></i> Edit Tentang Kami
+                </button>
+                <button id="btn-tambah-data" class="bg-yellow-600 hover:bg-yellow-500 text-slate-900 px-5 py-2.5 rounded font-bold transition shadow-lg">
+                    <i class="fas fa-plus-circle"></i> Tambah Event Baru
+                </button>
+            </div>
         </div>
 
         <!-- Tabel Data (Akan diisi dinamis oleh JS) -->
@@ -202,6 +207,30 @@
                 </form>
             </div>
 
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL EDIT TENTANG KAMI (HIDDEN)           -->
+    <!-- ========================================== -->
+    <div id="modal-tentang" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-[#1e293b] rounded-xl shadow-2xl w-full max-w-2xl border border-gray-700 transform scale-95 transition-transform duration-300" id="content-tentang">
+            <div class="flex justify-between items-center p-6 border-b border-gray-700">
+                <h3 class="text-xl font-bold text-blue-400 font-serif"><i class="fas fa-file-alt mr-2"></i> Edit "Tentang Kami"</h3>
+                <button id="btn-close-tentang" class="text-gray-400 hover:text-white transition text-xl"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6">
+                <form id="form-tentang" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Deskripsi Halaman (Boleh menggunakan tag HTML seperti &lt;br&gt; atau &lt;b&gt;)</label>
+                        <textarea id="input-deskripsi-tentang" rows="7" required class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Tuliskan deskripsi visi misi Pusbisnas di sini..."></textarea>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-700 mt-4">
+                        <button type="button" id="btn-cancel-tentang" class="px-5 py-2.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-white font-medium transition shadow">Batal</button>
+                        <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition shadow-lg"><i class="fas fa-save mr-1"></i> Simpan Konten</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

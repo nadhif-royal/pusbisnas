@@ -5,7 +5,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 // Tambahan: doc, getDoc, dan updateDoc untuk fitur Edit
-import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyARWa3rTSLxoaLBqYT09URuHuUyhH0SkJE",
@@ -277,3 +277,89 @@ if (btnLogout) {
         signOut(auth).catch((error) => console.error("Gagal logout:", error));
     });
 }
+
+// =============================================================
+// FUNGSI KHUSUS: MANAJEMEN HALAMAN "TENTANG KAMI"
+// =============================================================
+
+// Elemen DOM Tentang Kami
+const btnEditTentang = document.getElementById("btn-edit-tentang");
+const modalTentang = document.getElementById("modal-tentang");
+const contentTentang = document.getElementById("content-tentang");
+const formTentang = document.getElementById("form-tentang");
+const btnCloseTentang = document.getElementById("btn-close-tentang");
+const btnCancelTentang = document.getElementById("btn-cancel-tentang");
+const inputDeskripsiTentang = document.getElementById("input-deskripsi-tentang");
+
+// 1. Fungsi Buka Modal & Tarik Data Lama
+async function openModalTentangKami() {
+    modalTentang.classList.remove("hidden");
+    setTimeout(() => {
+        modalTentang.classList.remove("opacity-0");
+        contentTentang.classList.remove("scale-95");
+        contentTentang.classList.add("scale-100");
+    }, 10);
+
+    // Tampilkan loading di text area saat menarik data
+    inputDeskripsiTentang.value = "Mengambil data dari Firebase...";
+    
+    try {
+        const docRef = doc(db, "web_content", "tentang_kami");
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+            inputDeskripsiTentang.value = docSnap.data().deskripsi;
+        } else {
+            inputDeskripsiTentang.value = ""; // Kosongkan jika belum ada data di database
+        }
+    } catch (error) {
+        console.error("Gagal menarik data Tentang Kami:", error);
+        inputDeskripsiTentang.value = "Gagal memuat data.";
+    }
+}
+
+// 2. Fungsi Tutup Modal
+function closeModalTentangKami() {
+    modalTentang.classList.add("opacity-0");
+    contentTentang.classList.remove("scale-100");
+    contentTentang.classList.add("scale-95");
+    
+    setTimeout(() => {
+        modalTentang.classList.add("hidden");
+        formTentang.reset();
+    }, 300);
+}
+
+// 3. Fungsi Simpan Data
+if (formTentang) {
+    formTentang.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const btnSubmit = formTentang.querySelector('button[type="submit"]');
+        const originalText = btnSubmit.innerHTML;
+        btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Menyimpan...';
+        btnSubmit.disabled = true;
+
+        try {
+            const docRef = doc(db, "web_content", "tentang_kami");
+            // setDoc dengan { merge: true } akan membuat dokumen jika belum ada, atau menimpanya jika sudah ada
+            await setDoc(docRef, { deskripsi: inputDeskripsiTentang.value }, { merge: true });
+            
+            console.log("SUKSES! Halaman Tentang Kami berhasil diperbarui.");
+            closeModalTentangKami();
+            alert("Data Tentang Kami berhasil diperbarui! Cek website publik Anda.");
+            
+        } catch (error) {
+            console.error("Gagal menyimpan Tentang Kami:", error);
+            alert("Terjadi kesalahan sistem. Cek konsol!");
+        } finally {
+            btnSubmit.innerHTML = originalText;
+            btnSubmit.disabled = false;
+        }
+    });
+}
+
+// Listener Tombol
+if(btnEditTentang) btnEditTentang.addEventListener("click", openModalTentangKami);
+if(btnCloseTentang) btnCloseTentang.addEventListener("click", closeModalTentangKami);
+if(btnCancelTentang) btnCancelTentang.addEventListener("click", closeModalTentangKami);
