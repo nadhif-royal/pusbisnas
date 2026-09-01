@@ -19,24 +19,33 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // ----------------------------------------------
-// FUNGSI 1: MENGAMBIL DATA "TENTANG KAMI"
+// FUNGSI 1: MENGAMBIL PENGATURAN GLOBAL WEBSITE
 // ----------------------------------------------
-async function loadTentangKami() {
-    const targetElemen = document.getElementById("teks-tentang-kami");
-    
-    // Hanya jalankan jika elemen ditemukan di halaman (agar tidak error di halaman yang tidak punya elemen ini)
-    if (targetElemen) {
-        try {
-            const docRef = doc(db, "web_content", "tentang_kami");
-            const docSnap = await getDoc(docRef);
+async function loadGlobalSettings() {
+    try {
+        const docRef = doc(db, "web_content", "pengaturan_global");
+        const docSnap = await getDoc(docRef);
 
-            if (docSnap.exists()) {
-                targetElemen.innerHTML = docSnap.data().deskripsi;
-                console.log("CMS: Data 'Tentang Kami' berhasil dirender!");
-            }
-        } catch (error) {
-            console.error("Gagal menarik data Tentang Kami:", error);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            
+            // Suntikkan data ke HTML jika elemennya ditemukan (Fungsi pembantu)
+            const setText = (id, text) => {
+                const el = document.getElementById(id);
+                if (el && text) el.innerHTML = text; // innerHTML agar tag <br> terbaca
+            };
+
+            setText("teks-hero-title", data.hero_title);
+            setText("teks-hero-desc", data.hero_desc);
+            setText("teks-tentang-kami", data.tentang_desc);
+            setText("teks-wa", data.kontak_wa);
+            setText("teks-email", data.kontak_email);
+            setText("teks-ig", data.kontak_ig);
+
+            console.log("CMS: Pengaturan Global Website berhasil dirender!");
         }
+    } catch (error) {
+        console.error("Gagal menarik Pengaturan Global:", error);
     }
 }
 
@@ -250,6 +259,6 @@ async function loadArchivedProjects() {
 // ----------------------------------------------
 // JALANKAN SEMUA FUNGSI SAAT FILE DIMUAT
 // ----------------------------------------------
-loadTentangKami();
+loadGlobalSettings();
 loadOngoingCompetitions();
 loadArchivedProjects();

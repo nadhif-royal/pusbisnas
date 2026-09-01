@@ -41,7 +41,7 @@
             </div>
             <div class="flex gap-3">
                 <button id="btn-edit-tentang" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded font-bold transition shadow-lg">
-                    <i class="fas fa-file-alt"></i> Edit Tentang Kami
+                    <i class="fas fa-cog"></i> Pengaturan Website
                 </button>
                 <button id="btn-tambah-data" class="bg-yellow-600 hover:bg-yellow-500 text-slate-900 px-5 py-2.5 rounded font-bold transition shadow-lg">
                     <i class="fas fa-plus-circle"></i> Tambah Event Baru
@@ -211,23 +211,62 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- MODAL EDIT TENTANG KAMI (HIDDEN)           -->
+    <!-- MODAL PENGATURAN WEBSITE (GLOBAL)          -->
     <!-- ========================================== -->
     <div id="modal-tentang" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[100] hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-[#1e293b] rounded-xl shadow-2xl w-full max-w-2xl border border-gray-700 transform scale-95 transition-transform duration-300" id="content-tentang">
-            <div class="flex justify-between items-center p-6 border-b border-gray-700">
-                <h3 class="text-xl font-bold text-blue-400 font-serif"><i class="fas fa-file-alt mr-2"></i> Edit "Tentang Kami"</h3>
+        <div class="bg-[#1e293b] rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-gray-700 transform scale-95 transition-transform duration-300" id="content-tentang">
+            <div class="flex justify-between items-center p-6 border-b border-gray-700 sticky top-0 bg-[#1e293b] z-10">
+                <h3 class="text-xl font-bold text-blue-400 font-serif"><i class="fas fa-cog mr-2"></i> Pengaturan Konten Website</h3>
                 <button id="btn-close-tentang" class="text-gray-400 hover:text-white transition text-xl"><i class="fas fa-times"></i></button>
             </div>
+            
             <div class="p-6">
-                <form id="form-tentang" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-1">Deskripsi Halaman (Boleh menggunakan tag HTML seperti &lt;br&gt; atau &lt;b&gt;)</label>
-                        <textarea id="input-deskripsi-tentang" rows="7" required class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Tuliskan deskripsi visi misi Pusbisnas di sini..."></textarea>
+                <form id="form-tentang" class="space-y-6">
+                    <!-- SECTION 1: HERO (BERANDA ATAS) -->
+                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-600">
+                        <h4 class="text-yellow-500 font-bold mb-3"><i class="fas fa-home mr-1"></i> Halaman Utama (Hero)</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Judul Utama (Tagline)</label>
+                                <input type="text" id="input-hero-title" class="w-full px-4 py-2 bg-[#1e293b] border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Membangun Ekosistem Inovator Masa Depan">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Sub-judul / Deskripsi Singkat</label>
+                                <textarea id="input-hero-desc" rows="2" class="w-full px-4 py-2 bg-[#1e293b] border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Platform kompetisi bisnis eksklusif..."></textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-700 mt-4">
+
+                    <!-- SECTION 2: TENTANG KAMI -->
+                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-600">
+                        <h4 class="text-yellow-500 font-bold mb-3"><i class="fas fa-info-circle mr-1"></i> Section Tentang Kami</h4>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Deskripsi Lengkap (Gunakan &lt;br&gt; untuk enter baris)</label>
+                        <textarea id="input-deskripsi-tentang" rows="4" class="w-full px-4 py-2 bg-[#1e293b] border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Pusat Bisnis Nasional (Pusbisnas) adalah wadah..."></textarea>
+                    </div>
+
+                    <!-- SECTION 3: KONTAK KAMI -->
+                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-600">
+                        <h4 class="text-yellow-500 font-bold mb-3"><i class="fas fa-address-book mr-1"></i> Informasi Kontak</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Nomor WhatsApp</label>
+                                <input type="text" id="input-wa" class="w-full px-4 py-2 bg-[#1e293b] border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="0888 1869180">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Email Resmi</label>
+                                <input type="email" id="input-email" class="w-full px-4 py-2 bg-[#1e293b] border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="email@gmail.com">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Username Instagram</label>
+                                <input type="text" id="input-ig" class="w-full px-4 py-2 bg-[#1e293b] border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="@pusbisnas">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-700">
                         <button type="button" id="btn-cancel-tentang" class="px-5 py-2.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-white font-medium transition shadow">Batal</button>
-                        <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition shadow-lg"><i class="fas fa-save mr-1"></i> Simpan Konten</button>
+                        <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition shadow-lg"><i class="fas fa-save mr-1"></i> Simpan Pengaturan</button>
                     </div>
                 </form>
             </div>

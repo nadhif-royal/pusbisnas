@@ -279,20 +279,25 @@ if (btnLogout) {
 }
 
 // =============================================================
-// FUNGSI KHUSUS: MANAJEMEN HALAMAN "TENTANG KAMI"
+// FUNGSI KHUSUS: MASTER CONTROL PENGATURAN WEBSITE (GLOBAL)
 // =============================================================
 
-// Elemen DOM Tentang Kami
 const btnEditTentang = document.getElementById("btn-edit-tentang");
 const modalTentang = document.getElementById("modal-tentang");
 const contentTentang = document.getElementById("content-tentang");
 const formTentang = document.getElementById("form-tentang");
 const btnCloseTentang = document.getElementById("btn-close-tentang");
 const btnCancelTentang = document.getElementById("btn-cancel-tentang");
-const inputDeskripsiTentang = document.getElementById("input-deskripsi-tentang");
 
-// 1. Fungsi Buka Modal & Tarik Data Lama
-async function openModalTentangKami() {
+// Tangkap semua input
+const inHeroTitle = document.getElementById("input-hero-title");
+const inHeroDesc = document.getElementById("input-hero-desc");
+const inTentang = document.getElementById("input-deskripsi-tentang");
+const inWa = document.getElementById("input-wa");
+const inEmail = document.getElementById("input-email");
+const inIg = document.getElementById("input-ig");
+
+async function openModalPengaturan() {
     modalTentang.classList.remove("hidden");
     setTimeout(() => {
         modalTentang.classList.remove("opacity-0");
@@ -300,57 +305,59 @@ async function openModalTentangKami() {
         contentTentang.classList.add("scale-100");
     }, 10);
 
-    // Tampilkan loading di text area saat menarik data
-    inputDeskripsiTentang.value = "Mengambil data dari Firebase...";
-    
+    // Ambil data dari Firestore dokumen "pengaturan_global"
     try {
-        const docRef = doc(db, "web_content", "tentang_kami");
+        const docRef = doc(db, "web_content", "pengaturan_global");
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
-            inputDeskripsiTentang.value = docSnap.data().deskripsi;
-        } else {
-            inputDeskripsiTentang.value = ""; // Kosongkan jika belum ada data di database
+            const data = docSnap.data();
+            inHeroTitle.value = data.hero_title || "";
+            inHeroDesc.value = data.hero_desc || "";
+            inTentang.value = data.tentang_desc || "";
+            inWa.value = data.kontak_wa || "";
+            inEmail.value = data.kontak_email || "";
+            inIg.value = data.kontak_ig || "";
         }
     } catch (error) {
-        console.error("Gagal menarik data Tentang Kami:", error);
-        inputDeskripsiTentang.value = "Gagal memuat data.";
+        console.error("Gagal menarik data Pengaturan:", error);
     }
 }
 
-// 2. Fungsi Tutup Modal
-function closeModalTentangKami() {
+function closeModalPengaturan() {
     modalTentang.classList.add("opacity-0");
     contentTentang.classList.remove("scale-100");
     contentTentang.classList.add("scale-95");
-    
-    setTimeout(() => {
-        modalTentang.classList.add("hidden");
-        formTentang.reset();
-    }, 300);
+    setTimeout(() => { modalTentang.classList.add("hidden"); formTentang.reset(); }, 300);
 }
 
-// 3. Fungsi Simpan Data
 if (formTentang) {
     formTentang.addEventListener("submit", async (e) => {
         e.preventDefault();
-        
         const btnSubmit = formTentang.querySelector('button[type="submit"]');
         const originalText = btnSubmit.innerHTML;
         btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Menyimpan...';
         btnSubmit.disabled = true;
 
         try {
-            const docRef = doc(db, "web_content", "tentang_kami");
-            // setDoc dengan { merge: true } akan membuat dokumen jika belum ada, atau menimpanya jika sudah ada
-            await setDoc(docRef, { deskripsi: inputDeskripsiTentang.value }, { merge: true });
-            
-            console.log("SUKSES! Halaman Tentang Kami berhasil diperbarui.");
-            closeModalTentangKami();
-            alert("Data Tentang Kami berhasil diperbarui! Cek website publik Anda.");
-            
+            const docRef = doc(db, "web_content", "pengaturan_global");
+            // Kumpulkan semua data jadi satu objek JSON rapi
+            const payload = {
+                hero_title: inHeroTitle.value,
+                hero_desc: inHeroDesc.value,
+                tentang_desc: inTentang.value,
+                kontak_wa: inWa.value,
+                kontak_email: inEmail.value,
+                kontak_ig: inIg.value,
+                last_updated: serverTimestamp()
+            };
+
+            await setDoc(docRef, payload, { merge: true });
+            console.log("SUKSES! Pengaturan Global tersimpan.");
+            closeModalPengaturan();
+            alert("Pengaturan website berhasil diperbarui!");
         } catch (error) {
-            console.error("Gagal menyimpan Tentang Kami:", error);
+            console.error("Gagal menyimpan Pengaturan:", error);
             alert("Terjadi kesalahan sistem. Cek konsol!");
         } finally {
             btnSubmit.innerHTML = originalText;
@@ -359,7 +366,6 @@ if (formTentang) {
     });
 }
 
-// Listener Tombol
-if(btnEditTentang) btnEditTentang.addEventListener("click", openModalTentangKami);
-if(btnCloseTentang) btnCloseTentang.addEventListener("click", closeModalTentangKami);
-if(btnCancelTentang) btnCancelTentang.addEventListener("click", closeModalTentangKami);
+if(btnEditTentang) btnEditTentang.addEventListener("click", openModalPengaturan);
+if(btnCloseTentang) btnCloseTentang.addEventListener("click", closeModalPengaturan);
+if(btnCancelTentang) btnCancelTentang.addEventListener("click", closeModalPengaturan);
