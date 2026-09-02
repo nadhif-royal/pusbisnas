@@ -293,6 +293,14 @@ const btnCancelTentang = document.getElementById("btn-cancel-tentang");
 const inHeroTitle = document.getElementById("input-hero-title");
 const inHeroDesc = document.getElementById("input-hero-desc");
 const inTentang = document.getElementById("input-deskripsi-tentang");
+const inImpactDesc = document.getElementById("input-impact-desc");
+const inStat1Num = document.getElementById("input-stat1-num");
+const inStat1Label = document.getElementById("input-stat1-label");
+const inStat2Num = document.getElementById("input-stat2-num");
+const inStat2Label = document.getElementById("input-stat2-label");
+const inStat3Num = document.getElementById("input-stat3-num");
+const inStat3Label = document.getElementById("input-stat3-label");
+const inLayananDesc = document.getElementById("input-layanan-desc");
 const inWa = document.getElementById("input-wa");
 const inEmail = document.getElementById("input-email");
 const inIg = document.getElementById("input-ig");
@@ -305,7 +313,7 @@ async function openModalPengaturan() {
         contentTentang.classList.add("scale-100");
     }, 10);
 
-    // Ambil data dari Firestore dokumen "pengaturan_global"
+    // Ambil data dari Firestore
     try {
         const docRef = doc(db, "web_content", "pengaturan_global");
         const docSnap = await getDoc(docRef);
@@ -315,6 +323,14 @@ async function openModalPengaturan() {
             inHeroTitle.value = data.hero_title || "";
             inHeroDesc.value = data.hero_desc || "";
             inTentang.value = data.tentang_desc || "";
+            inImpactDesc.value = data.impact_desc || "";
+            inStat1Num.value = data.stat1_num || "";
+            inStat1Label.value = data.stat1_label || "";
+            inStat2Num.value = data.stat2_num || "";
+            inStat2Label.value = data.stat2_label || "";
+            inStat3Num.value = data.stat3_num || "";
+            inStat3Label.value = data.stat3_label || "";
+            inLayananDesc.value = data.layanan_desc || "";
             inWa.value = data.kontak_wa || "";
             inEmail.value = data.kontak_email || "";
             inIg.value = data.kontak_ig || "";
@@ -346,6 +362,14 @@ if (formTentang) {
                 hero_title: inHeroTitle.value,
                 hero_desc: inHeroDesc.value,
                 tentang_desc: inTentang.value,
+                impact_desc: inImpactDesc.value,
+                stat1_num: inStat1Num.value,
+                stat1_label: inStat1Label.value,
+                stat2_num: inStat2Num.value,
+                stat2_label: inStat2Label.value,
+                stat3_num: inStat3Num.value,
+                stat3_label: inStat3Label.value,
+                layanan_desc: inLayananDesc.value,
                 kontak_wa: inWa.value,
                 kontak_email: inEmail.value,
                 kontak_ig: inIg.value,

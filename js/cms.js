@@ -29,20 +29,37 @@ async function loadGlobalSettings() {
         if (docSnap.exists()) {
             const data = docSnap.data();
             
-            // Suntikkan data ke HTML jika elemennya ditemukan (Fungsi pembantu)
+            // Helper: Mengubah isi teks (innerHTML)
             const setText = (id, text) => {
                 const el = document.getElementById(id);
-                if (el && text) el.innerHTML = text; // innerHTML agar tag <br> terbaca
+                if (el && text) el.innerHTML = text; 
+            };
+            
+            // Helper: Mengubah atribut khusus (untuk animasi counter)
+            const setAttr = (id, attr, value) => {
+                const el = document.getElementById(id);
+                if (el && value) el.setAttribute(attr, value);
             };
 
+            // 1. Eksekusi Render Teks
             setText("teks-hero-title", data.hero_title);
             setText("teks-hero-desc", data.hero_desc);
             setText("teks-tentang-kami", data.tentang_desc);
+            setText("teks-impact-desc", data.impact_desc);
+            setText("teks-stat1-label", data.stat1_label);
+            setText("teks-stat2-label", data.stat2_label);
+            setText("teks-stat3-label", data.stat3_label);
+            setText("teks-layanan-desc", data.layanan_desc);
             setText("teks-wa", data.kontak_wa);
             setText("teks-email", data.kontak_email);
             setText("teks-ig", data.kontak_ig);
+            
+            // 2. Eksekusi Render Atribut Animasi Angka
+            setAttr("teks-stat1-num", "data-target", data.stat1_num);
+            setAttr("teks-stat2-num", "data-target", data.stat2_num);
+            setAttr("teks-stat3-num", "data-target", data.stat3_num);
 
-            console.log("CMS: Pengaturan Global Website berhasil dirender!");
+            console.log("CMS: Pengaturan Global Website berhasil dirender sepenuhnya!");
         }
     } catch (error) {
         console.error("Gagal menarik Pengaturan Global:", error);
