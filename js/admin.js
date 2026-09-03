@@ -118,6 +118,10 @@ window.editData = async (id, collectionType) => {
                 if(document.getElementById("input-guidebook")) document.getElementById("input-guidebook").value = data.modal_guidebook || "";
                 if(document.getElementById("input-daftar")) document.getElementById("input-daftar").value = data.modal_daftar || "";
             }
+            
+            // --- TRIGGER LIVE PREVIEW ---
+            if (typeof updateImagePreview === "function") updateImagePreview();
+            
             openModal(); // Tampilkan Modal!
         }
     } catch (error) {
@@ -270,6 +274,10 @@ function closeModal() {
         editModeId = null; 
         originalCollectionType = null; // Bersihkan memori laci asal
         document.getElementById("modal-title").innerHTML = '<i class="fas fa-edit mr-2"></i> Form Event Baru';
+        
+        // --- TRIGGER LIVE PREVIEW RESET ---
+        if (typeof updateImagePreview === "function") updateImagePreview();
+        
     }, 300);
 }
 
@@ -290,6 +298,81 @@ if (btnLogout) {
         signOut(auth).catch((error) => console.error("Gagal logout:", error));
     });
 }
+
+// =============================================================
+// FUNGSI KHUSUS: LIVE SEARCH & FILTER TABEL
+// =============================================================
+const searchInput = document.getElementById("search-input");
+const filterStatus = document.getElementById("filter-status");
+
+function filterTable() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filterValue = filterStatus.value;
+    const rows = document.querySelectorAll("#table-body-admin tr");
+
+    rows.forEach(row => {
+        // Abaikan baris loading jika ada
+        if (row.cells.length < 4) return;
+
+        // Ambil data Tipe (Ongoing/Arsip) dan Judul dari tabel HTML
+        const tipe = row.cells[0].textContent.trim().toUpperCase();
+        const judul = row.cells[1].textContent.toLowerCase();
+
+        // Cek kecocokan teks dan dropdown
+        const matchSearch = judul.includes(searchTerm);
+        const matchFilter = filterValue === "ALL" || tipe === filterValue;
+
+        if (matchSearch && matchFilter) {
+            row.style.display = ""; // Tampilkan
+        } else {
+            row.style.display = "none"; // Sembunyikan
+        }
+    });
+}
+
+// Pasang mata-mata ke input dan dropdown
+if(searchInput) searchInput.addEventListener("input", filterTable);
+if(filterStatus) filterStatus.addEventListener("change", filterTable);
+
+// =============================================================
+// FUNGSI KHUSUS: LIVE IMAGE PREVIEW (SISTEM ANTI TYPO)
+// =============================================================
+const inputLogo = document.getElementById("input-logo");
+const imagePreview = document.getElementById("image-preview");
+const previewPlaceholder = document.getElementById("preview-placeholder");
+
+window.updateImagePreview = () => {
+    if (!inputLogo || !imagePreview || !previewPlaceholder) return;
+    
+    const url = inputLogo.value.trim();
+    
+    // Reset style placeholder ke kondisi normal
+    previewPlaceholder.innerHTML = '<i class="fas fa-image text-2xl block mb-1"></i><span class="text-xs font-medium">Preview Poster Visual</span>';
+    previewPlaceholder.classList.remove("text-red-500");
+    
+    if (url !== "") {
+        imagePreview.src = url;
+        imagePreview.classList.remove("hidden");
+        previewPlaceholder.classList.add("hidden");
+    } else {
+        imagePreview.src = "";
+        imagePreview.classList.add("hidden");
+        previewPlaceholder.classList.remove("hidden");
+    }
+};
+
+// Jika URL ternyata typo/salah, tampilkan peringatan error merah
+if(imagePreview) {
+    imagePreview.onerror = () => {
+        imagePreview.classList.add("hidden");
+        previewPlaceholder.innerHTML = '<i class="fas fa-broken-image text-2xl block mb-1 text-red-500 text-center"></i><span class="text-red-500 font-bold text-xs">URL Gambar Rusak/Typo!</span>';
+        previewPlaceholder.classList.remove("hidden");
+        previewPlaceholder.classList.add("text-red-500");
+    };
+}
+
+// Pasang mata-mata saat admin mengetik (typing event)
+if(inputLogo) inputLogo.addEventListener("input", updateImagePreview);
 
 // =============================================================
 // FUNGSI KHUSUS: MASTER CONTROL PENGATURAN WEBSITE (GLOBAL)
