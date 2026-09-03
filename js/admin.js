@@ -32,6 +32,7 @@ const adminForm = document.getElementById("admin-form");
 
 // Variabel Global untuk melacak Mode Edit
 let editModeId = null; 
+let originalCollectionType = null; // TAMBAHAN: Mengingat laci asal data
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -91,6 +92,7 @@ function renderTableRow(id, type, title, statusDate, badgeClass) {
 // -------------------------------------------------------------
 window.editData = async (id, collectionType) => {
     editModeId = id; // Menandai bahwa kita sedang dalam mode EDIT
+    originalCollectionType = collectionType; // Simpan laci asalnya!
     document.getElementById("modal-title").innerHTML = '<i class="fas fa-edit mr-2"></i> Edit Event';
     
     try {
@@ -208,14 +210,24 @@ if (adminForm) {
                 };
             }
 
-            // LOGIKA PERCABANGAN CREATE VS UPDATE
+            // LOGIKA PERCABANGAN: CREATE, UPDATE, ATAU MOVE
             if (editModeId) {
-                // Jika ada editModeId, lakukan UPDATE data lama
-                const docRef = doc(db, koleksiTarget, editModeId);
-                await updateDoc(docRef, newData);
-                console.log("SUKSES UPDATE! Data berhasil diperbarui.");
+                if (originalCollectionType === koleksiTarget) {
+                    // JIKA LACI TETAP SAMA: Lakukan UPDATE data biasa
+                    const docRef = doc(db, koleksiTarget, editModeId);
+                    await updateDoc(docRef, newData);
+                    console.log("SUKSES UPDATE! Data berhasil diperbarui di laci yang sama.");
+                } else {
+                    // JIKA LACI BERUBAH (Contoh: Ongoing -> Arsip): Lakukan MOVE (Pindah Data)
+                    // 1. Buat data di laci baru
+                    await addDoc(collection(db, koleksiTarget), newData);
+                    // 2. Bakar/Hapus data di laci lama
+                    const oldDocRef = doc(db, originalCollectionType, editModeId);
+                    await deleteDoc(oldDocRef);
+                    console.log(`SUKSES PINDAH DATA! Event otomatis ditransfer dari ${originalCollectionType} ke ${koleksiTarget}.`);
+                }
             } else {
-                // Jika tidak ada editModeId, lakukan CREATE data baru
+                // JIKA TIDAK ADA editModeId: Lakukan CREATE data baru
                 await addDoc(collection(db, koleksiTarget), newData);
                 console.log("SUKSES CREATE! Data Event Baru tersimpan.");
             }
@@ -256,6 +268,7 @@ function closeModal() {
         
         // RESET MODE EDIT KEMBALI KE CREATE!
         editModeId = null; 
+        originalCollectionType = null; // Bersihkan memori laci asal
         document.getElementById("modal-title").innerHTML = '<i class="fas fa-edit mr-2"></i> Form Event Baru';
     }, 300);
 }
