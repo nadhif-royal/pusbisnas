@@ -256,9 +256,29 @@ if (adminForm) {
 }
 
 // -------------------------------------------------------------
-// FUNGSI: KONTROL MODAL (DENGAN RESET MODE EDIT)
+// FUNGSI: KONTROL MODAL (DENGAN RESET MODE EDIT & DYNAMIC FIELDS)
 // -------------------------------------------------------------
+const inputKoleksi = document.getElementById("input-koleksi");
+const containerOrder = document.getElementById("container-order");
+
+// Fungsi untuk menyembunyikan/menampilkan field berdasarkan dropdown
+function toggleDynamicFields() {
+    if (inputKoleksi && containerOrder) {
+        if (inputKoleksi.value === "completed_projects") {
+            containerOrder.classList.remove("hidden"); // Muncul saat Arsip
+        } else {
+            containerOrder.classList.add("hidden");    // Hilang saat Ongoing
+        }
+    }
+}
+
+// Pasang mata-mata saat dropdown di-klik/berubah nilainya
+if (inputKoleksi) {
+    inputKoleksi.addEventListener("change", toggleDynamicFields);
+}
+
 function openModal() {
+    toggleDynamicFields(); // Pastikan form langsung menyesuaikan saat modal baru terbuka
     formModal.classList.remove("hidden");
     setTimeout(() => {
         formModal.classList.remove("opacity-0");
