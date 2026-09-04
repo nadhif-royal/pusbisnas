@@ -108,6 +108,7 @@ window.editData = async (id, collectionType) => {
             document.getElementById("input-status").value = data.status || data.date || "";
             document.getElementById("input-logo").value = data.image_url || data.logo1_url || "";
             document.getElementById("input-modal-theme").value = data.modal_theme || data.desc || "";
+            if (document.getElementById("input-order")) document.getElementById("input-order").value = data.order || "";
             
             if (collectionType === "ongoing_competitions") {
                 if(document.getElementById("input-tag")) document.getElementById("input-tag").value = data.tag || "";
@@ -180,6 +181,10 @@ if (adminForm) {
             const timelineValue = document.getElementById("input-modal-timeline") ? document.getElementById("input-modal-timeline").value : "";
             const guidebookValue = document.getElementById("input-guidebook") ? document.getElementById("input-guidebook").value : "";
             const daftarValue = document.getElementById("input-daftar") ? document.getElementById("input-daftar").value : "";
+            
+            // Tangkap input urutan, pastikan jadi Integer. Kalau kosong/salah ketik, set ke 99 (Paling Belakang)
+            const orderInput = document.getElementById("input-order");
+            const orderValue = orderInput && orderInput.value !== "" ? parseInt(orderInput.value) : 99;
 
             let newData = {
                 title: titleValue,
@@ -210,7 +215,8 @@ if (adminForm) {
                     ...newData,
                     date: statusValue,
                     logo1_url: logoValue,
-                    desc: themeValue 
+                    desc: themeValue,
+                    order: orderValue // Suntikkan field order khusus untuk laci Arsip
                 };
             }
 
