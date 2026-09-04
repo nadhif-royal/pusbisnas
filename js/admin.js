@@ -108,29 +108,36 @@ window.editData = async (id, collectionType) => {
             
             // Isi Field Umum
             document.getElementById("input-title").value = data.title || "";
-            document.getElementById("input-logo").value = data.image_url || data.logo1_url || "";
             document.getElementById("input-modal-theme").value = data.modal_theme || data.desc || "";
             
             if (collectionType === "ongoing_competitions") {
                 // Isi Field Khusus Ongoing
                 document.getElementById("input-status-ongoing").value = data.status || "Pendaftaran Buka";
+                document.getElementById("input-logo").value = data.image_url || ""; // Poster Utama Ongoing
+                document.getElementById("input-modal-logo1").value = data.modal_logo1 || ""; // Logo 1 Ongoing
+                document.getElementById("input-modal-logo2").value = data.modal_logo2 || ""; // Logo 2 Ongoing
                 document.getElementById("input-tag").value = data.tag || "";
                 document.getElementById("input-price").value = data.price || "";
                 document.getElementById("input-team").value = data.team_type || "";
                 document.getElementById("input-modal-syarat").value = data.modal_syarat || "";
                 document.getElementById("input-modal-timeline").value = data.modal_timeline || "";
-                
-                // Pastikan elemen baru diakses dengan aman
-                if(document.getElementById("input-modal-benefit")) document.getElementById("input-modal-benefit").value = data.modal_benefit || "";
-                if(document.getElementById("input-modal-contact")) document.getElementById("input-modal-contact").value = data.modal_contact || "";
-                
+                document.getElementById("input-modal-benefit").value = data.modal_benefit || "";
+                document.getElementById("input-modal-contact").value = data.modal_contact || "";
                 document.getElementById("input-guidebook").value = data.modal_guidebook || "";
                 document.getElementById("input-daftar").value = data.modal_daftar || "";
             } else {
                 // Isi Field Khusus Arsip
                 document.getElementById("input-date-arsip").value = data.date || "";
-                document.getElementById("input-order").value = data.order || "";
+                document.getElementById("input-logo-arsip1").value = data.logo1_url || "";
+                if(document.getElementById("input-logo-arsip2")) document.getElementById("input-logo-arsip2").value = data.logo2_url || "";
+                document.getElementById("input-order").value = (data.order !== undefined && data.order !== null) ? data.order : "";
                 
+                // Isi Instagram jika ada
+                if(document.getElementById("input-ig1-handle")) document.getElementById("input-ig1-handle").value = data.ig1_handle || "";
+                if(document.getElementById("input-ig1-url")) document.getElementById("input-ig1-url").value = data.ig1_url || "";
+                if(document.getElementById("input-ig2-handle")) document.getElementById("input-ig2-handle").value = data.ig2_handle || "";
+                if(document.getElementById("input-ig2-url")) document.getElementById("input-ig2-url").value = data.ig2_url || "";
+
                 if(document.getElementById("input-stat1-num")) document.getElementById("input-stat1-num").value = data.stat1_num || "";
                 if(document.getElementById("input-stat1-label")) document.getElementById("input-stat1-label").value = data.stat1_label || "";
                 if(document.getElementById("input-stat2-num")) document.getElementById("input-stat2-num").value = data.stat2_num || "";
@@ -191,7 +198,6 @@ if (adminForm) {
         try {
             const koleksiTarget = document.getElementById("input-koleksi").value;
             const titleValue = document.getElementById("input-title").value;
-            const logoValue = document.getElementById("input-logo").value;
             const themeValue = document.getElementById("input-modal-theme").value;
             
             let newData = {
@@ -203,14 +209,17 @@ if (adminForm) {
             if (koleksiTarget === "ongoing_competitions") {
                 const generatedTarget = "modal-" + titleValue.toLowerCase().replace(/[^a-z0-9]/g, "");
                 
-                // Ambil nilai khusus Ongoing (Abaikan error jika elemen null)
                 const benefitValue = document.getElementById("input-modal-benefit") ? document.getElementById("input-modal-benefit").value : "";
                 const contactValue = document.getElementById("input-modal-contact") ? document.getElementById("input-modal-contact").value : "";
-                
+                const modalLogo1 = document.getElementById("input-modal-logo1") ? document.getElementById("input-modal-logo1").value : "";
+                const modalLogo2 = document.getElementById("input-modal-logo2") ? document.getElementById("input-modal-logo2").value : "";
+
                 newData = {
                     ...newData,
                     status: document.getElementById("input-status-ongoing").value,
-                    image_url: logoValue,
+                    image_url: document.getElementById("input-logo").value,
+                    modal_logo1: modalLogo1,
+                    modal_logo2: modalLogo2,
                     tag: document.getElementById("input-tag").value,
                     price: document.getElementById("input-price").value,
                     team_type: document.getElementById("input-team").value,
@@ -228,16 +237,32 @@ if (adminForm) {
                 // Ambil urutan dan pastikan itu Integer
                 const orderInput = document.getElementById("input-order");
                 const orderValue = orderInput && orderInput.value !== "" ? parseInt(orderInput.value) : 99;
+                
+                // Ambil Logo khusus Arsip
+                const logoArsip1 = document.getElementById("input-logo-arsip1") ? document.getElementById("input-logo-arsip1").value : "";
+                const logoArsip2 = document.getElementById("input-logo-arsip2") ? document.getElementById("input-logo-arsip2").value : "";
+                const dateArsip = document.getElementById("input-date-arsip") ? document.getElementById("input-date-arsip").value : "";
+
+                // Ambil Media Sosial Instagram opsional (Handle vs URL)
+                const ig1Handle = document.getElementById("input-ig1-handle") ? document.getElementById("input-ig1-handle").value.trim() : "";
+                const ig1Url = document.getElementById("input-ig1-url") ? document.getElementById("input-ig1-url").value.trim() : "";
+                const ig2Handle = document.getElementById("input-ig2-handle") ? document.getElementById("input-ig2-handle").value.trim() : "";
+                const ig2Url = document.getElementById("input-ig2-url") ? document.getElementById("input-ig2-url").value.trim() : "";
 
                 // Ambil statistik opsional
                 const getStat = (id) => document.getElementById(id) ? document.getElementById(id).value : "";
 
                 newData = {
                     ...newData,
-                    date: document.getElementById("input-date-arsip").value,
-                    logo1_url: logoValue,
+                    date: dateArsip,
+                    logo1_url: logoArsip1,
+                    logo2_url: logoArsip2,
                     desc: themeValue,
                     order: orderValue,
+                    ig1_handle: ig1Handle,
+                    ig1_url: ig1Url,
+                    ig2_handle: ig2Handle,
+                    ig2_url: ig2Url,
                     stat1_num: getStat("input-stat1-num"),
                     stat1_label: getStat("input-stat1-label"),
                     stat2_num: getStat("input-stat2-num"),
@@ -286,16 +311,22 @@ if (adminForm) {
 // FUNGSI: KONTROL MODAL (DENGAN RESET MODE EDIT & DYNAMIC FIELDS)
 // -------------------------------------------------------------
 const inputKoleksi = document.getElementById("input-koleksi");
-const containerOrder = document.getElementById("container-order");
 
-// Fungsi untuk menyembunyikan/menampilkan field berdasarkan dropdown
+// Fungsi saklar: Menampilkan field yang sesuai dengan tipe laci
 function toggleDynamicFields() {
-    if (inputKoleksi && containerOrder) {
-        if (inputKoleksi.value === "completed_projects") {
-            containerOrder.classList.remove("hidden"); // Muncul saat Arsip
-        } else {
-            containerOrder.classList.add("hidden");    // Hilang saat Ongoing
-        }
+    if (!inputKoleksi) return;
+    const colValue = inputKoleksi.value;
+    const ongoingElements = document.querySelectorAll(".ongoing-only");
+    const arsipElements = document.querySelectorAll(".arsip-only");
+
+    if (colValue === "completed_projects") {
+        // Jika Arsip: Sembunyikan Ongoing, Tampilkan Arsip
+        ongoingElements.forEach(el => el.style.display = "none");
+        arsipElements.forEach(el => el.style.display = "block");
+    } else {
+        // Jika Ongoing: Tampilkan Ongoing, Sembunyikan Arsip
+        ongoingElements.forEach(el => el.style.display = "block");
+        arsipElements.forEach(el => el.style.display = "none");
     }
 }
 

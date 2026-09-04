@@ -120,15 +120,21 @@ async function loadOngoingCompetitions() {
 
                 // 2. RAKIT HTML POP-UP MODAL
                 if (data.modal_title) {
+                    // Pengecekan Aman: Hanya buat div logo jika URL-nya benar-benar ada di Firebase
+                    let logosHTML = '';
+                    if (data.modal_logo1 || data.modal_logo2) {
+                        logosHTML = `<div class="modal-header-logos">`;
+                        if (data.modal_logo1) logosHTML += `<img src="${data.modal_logo1}" alt="Logo 1">`;
+                        if (data.modal_logo2) logosHTML += `<img src="${data.modal_logo2}" alt="Logo 2">`;
+                        logosHTML += `</div>`;
+                    }
+
                     const modalHTML = `
                     <div id="${data.modal_target}" class="detail-modal-overlay" onclick="closeModalOutside(event, '${data.modal_target}')">
                         <div class="detail-modal-container">
                             <div class="modal-header">
                                 <div class="modal-header-brand">
-                                    <div class="modal-header-logos">
-                                        ${data.modal_logo1 ? `<img src="${data.modal_logo1}" alt="Logo 1">` : ''}
-                                        ${data.modal_logo2 ? `<img src="${data.modal_logo2}" alt="Logo 2">` : ''}
-                                    </div>
+                                    ${logosHTML}
                                     <h3>${data.modal_title}</h3>
                                 </div>
                                 <button class="close-modal" onclick="closeModal('${data.modal_target}')"><i class="fas fa-times"></i></button>
