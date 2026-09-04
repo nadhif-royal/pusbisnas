@@ -76,13 +76,28 @@ async function loadOngoingCompetitions() {
     if (gridKontainer && modalKontainer) {
         try {
             const querySnapshot = await getDocs(collection(db, "ongoing_competitions"));
-            
             gridKontainer.innerHTML = ""; 
-            modalKontainer.innerHTML = ""; // Kosongkan area modal
+            modalKontainer.innerHTML = ""; 
 
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
+            // Tarik data ke dalam Array agar bisa kita urutkan secara manual (Client-Side)
+            let ongoingData = [];
+            querySnapshot.forEach(doc => ongoingData.push({ id: doc.id, ...doc.data() }));
 
+            // SORTING LOGIC: Buka -> Segera Hadir -> Ditutup -> Berakhir
+            const statusWeight = {
+                "Pendaftaran Buka": 1,
+                "Segera Hadir": 2,
+                "Pendaftaran Ditutup": 3,
+                "Event Telah Berakhir": 4
+            };
+
+            ongoingData.sort((a, b) => {
+                const wA = statusWeight[a.status] || 99;
+                const wB = statusWeight[b.status] || 99;
+                return wA - wB; // Mengurutkan dari angka kecil (Prioritas) ke besar
+            });
+
+            ongoingData.forEach((data) => {
                 // 1. RAKIT HTML KARTU LOMBA
                 const cardHTML = `
                 <div class="poster-card" data-aos="fade-up" data-aos-duration="800">
@@ -103,7 +118,7 @@ async function loadOngoingCompetitions() {
                 `;
                 gridKontainer.innerHTML += cardHTML;
 
-                // 2. RAKIT HTML POP-UP MODAL (Hanya merakit jika modal_title diisi di Firebase)
+                // 2. RAKIT HTML POP-UP MODAL
                 if (data.modal_title) {
                     const modalHTML = `
                     <div id="${data.modal_target}" class="detail-modal-overlay" onclick="closeModalOutside(event, '${data.modal_target}')">
@@ -157,31 +172,38 @@ async function loadOngoingCompetitions() {
                     modalKontainer.innerHTML += modalHTML;
                 }
             });
-
-            console.log("CMS: Data & Modal 'Ongoing Competitions' berhasil dirender!");
-
+            console.log("CMS: Data 'Ongoing Competitions' diurutkan berdasarkan Status!");
         } catch (error) {
-            console.error("Gagal menarik data Ongoing Competitions:", error);
+            console.error("Gagal menarik data Ongoing:", error);
         }
     }
 }
 
 // ----------------------------------------------
-// FUNGSI 3: MENGAMBIL DATA "ARSIP EVENT KOLABORASI" (ULTRA + ANIMASI)
+// FUNGSI 3: MENGAMBIL DATA "ARSIP EVENT"
 // ----------------------------------------------
 async function loadArchivedProjects() {
     const arsipKontainer = document.getElementById("arsip-dinamis");
 
     if (arsipKontainer) {
         try {
-            // Panggil data dan urutkan berdasarkan field 'order' dari angka 1 ke atas (asc)
-            const q = query(collection(db, "completed_projects"), orderBy("order", "asc"));
-            const querySnapshot = await getDocs(q);
+            // BUG FIX: Kita cabut fungsi orderBy dari server untuk menghindari Bug Mixed Data Types.
+            // Kita tarik mentah, lalu kita konversi dan urutkan di dalam memori browser!
+            const querySnapshot = await getDocs(collection(db, "completed_projects"));
             
             arsipKontainer.innerHTML = ""; 
+            
+            let arsipData = [];
+            querySnapshot.forEach(doc => arsipData.push({ id: doc.id, ...doc.data() }));
 
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
+            // SORTING LOGIC: Konversi paksa ke Angka, lalu urutkan Ascending (Terkecil ke Terbesar)
+            arsipData.sort((a, b) => {
+                const orderA = (a.order !== undefined && a.order !== "") ? Number(a.order) : 99;
+                const orderB = (b.order !== undefined && b.order !== "") ? Number(b.order) : 99;
+                return orderA - orderB; 
+            });
+
+            arsipData.forEach((data) => {
                 const hasStats = data.stat1_num || data.stat2_num;
                 
                 const gridStyle = hasStats ? "" : `style="grid-template-columns: 1fr; text-align: center;"`;
@@ -233,13 +255,12 @@ async function loadArchivedProjects() {
             
             const firebaseObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
-                    // Animasi BARU BERJALAN jika user men-scroll dan kotak mulai terlihat di layar
                     if (entry.isIntersecting) {
                         const countersInArea = entry.target.querySelectorAll('.firebase-counter');
                         
                         countersInArea.forEach(counter => {
                             const target = +counter.getAttribute('data-target');
-                            const duration = 2000; // Animasi 2 detik
+                            const duration = 2000; 
                             const increment = target / (duration / 16); 
                             
                             let currentCount = 0;
@@ -254,19 +275,16 @@ async function loadArchivedProjects() {
                             };
                             updateCounter();
                         });
-                        
-                        // Stop pantau area ini agar animasi tidak mengulang jika di-scroll naik-turun
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.2 }); // Memicu saat 20% area kotak masuk ke layar Anda
+            }, { threshold: 0.2 }); 
 
-            // Pasang "mata-mata" ke semua kotak yang baru dibuat Firebase
             triggerAreas.forEach(area => {
                 firebaseObserver.observe(area);
             });
 
-            console.log("CMS: Data 'Arsip Event' berhasil dirender dengan urutan & animasi!");
+            console.log("CMS: Bug Urutan Arsip Berhasil Diperbaiki (Client-Side Sorting)!");
         } catch (error) {
             console.error("Gagal menarik data Arsip Event:", error);
         }

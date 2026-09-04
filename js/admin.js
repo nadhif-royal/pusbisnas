@@ -88,11 +88,11 @@ function renderTableRow(id, type, title, statusDate, badgeClass) {
 }
 
 // -------------------------------------------------------------
-// FUNGSI BARU: TARIK DATA LAMA UNTUK DI-EDIT
+// FUNGSI BARU: TARIK DATA LAMA UNTUK DI-EDIT (REVISI)
 // -------------------------------------------------------------
 window.editData = async (id, collectionType) => {
-    editModeId = id; // Menandai bahwa kita sedang dalam mode EDIT
-    originalCollectionType = collectionType; // Simpan laci asalnya!
+    editModeId = id; 
+    originalCollectionType = collectionType; 
     document.getElementById("modal-title").innerHTML = '<i class="fas fa-edit mr-2"></i> Edit Event';
     
     try {
@@ -102,22 +102,43 @@ window.editData = async (id, collectionType) => {
         if (docSnap.exists()) {
             const data = docSnap.data();
             
-            // Mengisi form dengan data lama dari Firebase
+            // Set dropdown tipe laci lalu sesuaikan form UI-nya secara dinamis
             document.getElementById("input-koleksi").value = collectionType;
+            toggleDynamicFields(); 
+            
+            // Isi Field Umum
             document.getElementById("input-title").value = data.title || "";
-            document.getElementById("input-status").value = data.status || data.date || "";
             document.getElementById("input-logo").value = data.image_url || data.logo1_url || "";
             document.getElementById("input-modal-theme").value = data.modal_theme || data.desc || "";
-            if (document.getElementById("input-order")) document.getElementById("input-order").value = data.order || "";
             
             if (collectionType === "ongoing_competitions") {
-                if(document.getElementById("input-tag")) document.getElementById("input-tag").value = data.tag || "";
-                if(document.getElementById("input-price")) document.getElementById("input-price").value = data.price || "";
-                if(document.getElementById("input-team")) document.getElementById("input-team").value = data.team_type || "";
-                if(document.getElementById("input-modal-syarat")) document.getElementById("input-modal-syarat").value = data.modal_syarat || "";
-                if(document.getElementById("input-modal-timeline")) document.getElementById("input-modal-timeline").value = data.modal_timeline || "";
-                if(document.getElementById("input-guidebook")) document.getElementById("input-guidebook").value = data.modal_guidebook || "";
-                if(document.getElementById("input-daftar")) document.getElementById("input-daftar").value = data.modal_daftar || "";
+                // Isi Field Khusus Ongoing
+                document.getElementById("input-status-ongoing").value = data.status || "Pendaftaran Buka";
+                document.getElementById("input-tag").value = data.tag || "";
+                document.getElementById("input-price").value = data.price || "";
+                document.getElementById("input-team").value = data.team_type || "";
+                document.getElementById("input-modal-syarat").value = data.modal_syarat || "";
+                document.getElementById("input-modal-timeline").value = data.modal_timeline || "";
+                
+                // Pastikan elemen baru diakses dengan aman
+                if(document.getElementById("input-modal-benefit")) document.getElementById("input-modal-benefit").value = data.modal_benefit || "";
+                if(document.getElementById("input-modal-contact")) document.getElementById("input-modal-contact").value = data.modal_contact || "";
+                
+                document.getElementById("input-guidebook").value = data.modal_guidebook || "";
+                document.getElementById("input-daftar").value = data.modal_daftar || "";
+            } else {
+                // Isi Field Khusus Arsip
+                document.getElementById("input-date-arsip").value = data.date || "";
+                document.getElementById("input-order").value = data.order || "";
+                
+                if(document.getElementById("input-stat1-num")) document.getElementById("input-stat1-num").value = data.stat1_num || "";
+                if(document.getElementById("input-stat1-label")) document.getElementById("input-stat1-label").value = data.stat1_label || "";
+                if(document.getElementById("input-stat2-num")) document.getElementById("input-stat2-num").value = data.stat2_num || "";
+                if(document.getElementById("input-stat2-label")) document.getElementById("input-stat2-label").value = data.stat2_label || "";
+                if(document.getElementById("input-stat3-num")) document.getElementById("input-stat3-num").value = data.stat3_num || "";
+                if(document.getElementById("input-stat3-label")) document.getElementById("input-stat3-label").value = data.stat3_label || "";
+                if(document.getElementById("input-stat4-num")) document.getElementById("input-stat4-num").value = data.stat4_num || "";
+                if(document.getElementById("input-stat4-label")) document.getElementById("input-stat4-label").value = data.stat4_label || "";
             }
             
             // --- TRIGGER LIVE PREVIEW ---
@@ -170,76 +191,82 @@ if (adminForm) {
         try {
             const koleksiTarget = document.getElementById("input-koleksi").value;
             const titleValue = document.getElementById("input-title").value;
-            const statusValue = document.getElementById("input-status").value;
             const logoValue = document.getElementById("input-logo").value;
             const themeValue = document.getElementById("input-modal-theme").value;
             
-            const tagValue = document.getElementById("input-tag") ? document.getElementById("input-tag").value : "";
-            const priceValue = document.getElementById("input-price") ? document.getElementById("input-price").value : "";
-            const teamValue = document.getElementById("input-team") ? document.getElementById("input-team").value : "";
-            const syaratValue = document.getElementById("input-modal-syarat") ? document.getElementById("input-modal-syarat").value : "";
-            const timelineValue = document.getElementById("input-modal-timeline") ? document.getElementById("input-modal-timeline").value : "";
-            const guidebookValue = document.getElementById("input-guidebook") ? document.getElementById("input-guidebook").value : "";
-            const daftarValue = document.getElementById("input-daftar") ? document.getElementById("input-daftar").value : "";
-            
-            // Tangkap input urutan, pastikan jadi Integer. Kalau kosong/salah ketik, set ke 99 (Paling Belakang)
-            const orderInput = document.getElementById("input-order");
-            const orderValue = orderInput && orderInput.value !== "" ? parseInt(orderInput.value) : 99;
-
             let newData = {
                 title: titleValue,
                 timestamp: serverTimestamp() 
             };
 
+            // BEDAKAN PAYLOAD BERDASARKAN LACI YANG DIPILIH
             if (koleksiTarget === "ongoing_competitions") {
                 const generatedTarget = "modal-" + titleValue.toLowerCase().replace(/[^a-z0-9]/g, "");
+                
+                // Ambil nilai khusus Ongoing (Abaikan error jika elemen null)
+                const benefitValue = document.getElementById("input-modal-benefit") ? document.getElementById("input-modal-benefit").value : "";
+                const contactValue = document.getElementById("input-modal-contact") ? document.getElementById("input-modal-contact").value : "";
+                
                 newData = {
                     ...newData,
-                    status: statusValue,
+                    status: document.getElementById("input-status-ongoing").value,
                     image_url: logoValue,
-                    tag: tagValue,
-                    price: priceValue,
-                    team_type: teamValue,
+                    tag: document.getElementById("input-tag").value,
+                    price: document.getElementById("input-price").value,
+                    team_type: document.getElementById("input-team").value,
                     modal_target: generatedTarget,
                     modal_title: titleValue,
                     modal_theme: themeValue,
-                    modal_syarat: syaratValue,
-                    modal_timeline: timelineValue,
-                    modal_benefit: "<li>Juara 1: Uang Pembinaan + E-Sertifikat</li><li>Juara 2: Uang Pembinaan + E-Sertifikat</li>",
-                    modal_contact: "Hubungi Instagram penyelenggara untuk info lebih lanjut.",
-                    modal_guidebook: guidebookValue,
-                    modal_daftar: daftarValue
+                    modal_syarat: document.getElementById("input-modal-syarat").value,
+                    modal_timeline: document.getElementById("input-modal-timeline").value,
+                    modal_benefit: benefitValue,
+                    modal_contact: contactValue,
+                    modal_guidebook: document.getElementById("input-guidebook").value,
+                    modal_daftar: document.getElementById("input-daftar").value
                 };
             } else {
+                // Ambil urutan dan pastikan itu Integer
+                const orderInput = document.getElementById("input-order");
+                const orderValue = orderInput && orderInput.value !== "" ? parseInt(orderInput.value) : 99;
+
+                // Ambil statistik opsional
+                const getStat = (id) => document.getElementById(id) ? document.getElementById(id).value : "";
+
                 newData = {
                     ...newData,
-                    date: statusValue,
+                    date: document.getElementById("input-date-arsip").value,
                     logo1_url: logoValue,
                     desc: themeValue,
-                    order: orderValue // Suntikkan field order khusus untuk laci Arsip
+                    order: orderValue,
+                    stat1_num: getStat("input-stat1-num"),
+                    stat1_label: getStat("input-stat1-label"),
+                    stat2_num: getStat("input-stat2-num"),
+                    stat2_label: getStat("input-stat2-label"),
+                    stat3_num: getStat("input-stat3-num"),
+                    stat3_label: getStat("input-stat3-label"),
+                    stat4_num: getStat("input-stat4-num"),
+                    stat4_label: getStat("input-stat4-label")
                 };
             }
 
             // LOGIKA PERCABANGAN: CREATE, UPDATE, ATAU MOVE
             if (editModeId) {
                 if (originalCollectionType === koleksiTarget) {
-                    // JIKA LACI TETAP SAMA: Lakukan UPDATE data biasa
+                    // JIKA LACI TETAP SAMA: UPDATE
                     const docRef = doc(db, koleksiTarget, editModeId);
                     await updateDoc(docRef, newData);
-                    console.log("SUKSES UPDATE! Data berhasil diperbarui di laci yang sama.");
+                    console.log("SUKSES UPDATE!");
                 } else {
-                    // JIKA LACI BERUBAH (Contoh: Ongoing -> Arsip): Lakukan MOVE (Pindah Data)
-                    // 1. Buat data di laci baru
+                    // JIKA PINDAH LACI (Ongoing -> Arsip): MOVE DATA
                     await addDoc(collection(db, koleksiTarget), newData);
-                    // 2. Bakar/Hapus data di laci lama
                     const oldDocRef = doc(db, originalCollectionType, editModeId);
                     await deleteDoc(oldDocRef);
-                    console.log(`SUKSES PINDAH DATA! Event otomatis ditransfer dari ${originalCollectionType} ke ${koleksiTarget}.`);
+                    console.log(`SUKSES PINDAH DATA DARI ${originalCollectionType} ke ${koleksiTarget}.`);
                 }
             } else {
-                // JIKA TIDAK ADA editModeId: Lakukan CREATE data baru
+                // JIKA BUKAN MODE EDIT: CREATE BARU
                 await addDoc(collection(db, koleksiTarget), newData);
-                console.log("SUKSES CREATE! Data Event Baru tersimpan.");
+                console.log("SUKSES CREATE!");
             }
             
             closeModal();
