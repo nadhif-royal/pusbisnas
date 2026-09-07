@@ -106,16 +106,22 @@ window.editData = async (id, collectionType) => {
             document.getElementById("input-koleksi").value = collectionType;
             toggleDynamicFields(); 
             
-            // Isi Field Umum
+            // Isi Field Umum (Berlaku untuk Ongoing & Arsip)
             document.getElementById("input-title").value = data.title || "";
             document.getElementById("input-modal-theme").value = data.modal_theme || data.desc || "";
+            
+            // Isi Instagram jika ada
+            if(document.getElementById("input-ig1-handle")) document.getElementById("input-ig1-handle").value = data.ig1_handle || "";
+            if(document.getElementById("input-ig1-url")) document.getElementById("input-ig1-url").value = data.ig1_url || "";
+            if(document.getElementById("input-ig2-handle")) document.getElementById("input-ig2-handle").value = data.ig2_handle || "";
+            if(document.getElementById("input-ig2-url")) document.getElementById("input-ig2-url").value = data.ig2_url || "";
             
             if (collectionType === "ongoing_competitions") {
                 // Isi Field Khusus Ongoing
                 document.getElementById("input-status-ongoing").value = data.status || "Pendaftaran Buka";
-                document.getElementById("input-logo").value = data.image_url || ""; // Poster Utama Ongoing
-                document.getElementById("input-modal-logo1").value = data.modal_logo1 || ""; // Logo 1 Ongoing
-                document.getElementById("input-modal-logo2").value = data.modal_logo2 || ""; // Logo 2 Ongoing
+                document.getElementById("input-logo").value = data.image_url || ""; 
+                document.getElementById("input-modal-logo1").value = data.modal_logo1 || ""; 
+                document.getElementById("input-modal-logo2").value = data.modal_logo2 || ""; 
                 document.getElementById("input-tag").value = data.tag || "";
                 document.getElementById("input-price").value = data.price || "";
                 document.getElementById("input-team").value = data.team_type || "";
@@ -132,12 +138,6 @@ window.editData = async (id, collectionType) => {
                 if(document.getElementById("input-logo-arsip2")) document.getElementById("input-logo-arsip2").value = data.logo2_url || "";
                 document.getElementById("input-order").value = (data.order !== undefined && data.order !== null) ? data.order : "";
                 
-                // Isi Instagram jika ada
-                if(document.getElementById("input-ig1-handle")) document.getElementById("input-ig1-handle").value = data.ig1_handle || "";
-                if(document.getElementById("input-ig1-url")) document.getElementById("input-ig1-url").value = data.ig1_url || "";
-                if(document.getElementById("input-ig2-handle")) document.getElementById("input-ig2-handle").value = data.ig2_handle || "";
-                if(document.getElementById("input-ig2-url")) document.getElementById("input-ig2-url").value = data.ig2_url || "";
-
                 if(document.getElementById("input-stat1-num")) document.getElementById("input-stat1-num").value = data.stat1_num || "";
                 if(document.getElementById("input-stat1-label")) document.getElementById("input-stat1-label").value = data.stat1_label || "";
                 if(document.getElementById("input-stat2-num")) document.getElementById("input-stat2-num").value = data.stat2_num || "";
@@ -200,8 +200,18 @@ if (adminForm) {
             const titleValue = document.getElementById("input-title").value;
             const themeValue = document.getElementById("input-modal-theme").value;
             
+            // Ambil Media Sosial Instagram opsional (Handle vs URL) secara Global
+            const ig1Handle = document.getElementById("input-ig1-handle") ? document.getElementById("input-ig1-handle").value.trim() : "";
+            const ig1Url = document.getElementById("input-ig1-url") ? document.getElementById("input-ig1-url").value.trim() : "";
+            const ig2Handle = document.getElementById("input-ig2-handle") ? document.getElementById("input-ig2-handle").value.trim() : "";
+            const ig2Url = document.getElementById("input-ig2-url") ? document.getElementById("input-ig2-url").value.trim() : "";
+            
             let newData = {
                 title: titleValue,
+                ig1_handle: ig1Handle,
+                ig1_url: ig1Url,
+                ig2_handle: ig2Handle,
+                ig2_url: ig2Url,
                 timestamp: serverTimestamp() 
             };
 

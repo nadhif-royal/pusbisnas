@@ -168,9 +168,21 @@ async function loadOngoingCompetitions() {
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <a href="${data.modal_guidebook}" target="_blank" class="btn-modal-outline"><i class="fas fa-book"></i> Unduh Guidebook</a>
-                                <a href="${data.modal_daftar}" target="_blank" class="btn-modal-solid">Daftar Sekarang <i class="fas fa-rocket"></i></a>
+                            <!-- MODAL FOOTER DENGAN SPLIT ACTION BAR -->
+                            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                                
+                                <!-- Kiri: Tombol Instagram (Jika Ada) -->
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                    ${data.ig1_url ? `<a href="${data.ig1_url}" target="_blank" class="btn-modal-outline" style="border-color: #e1306c; color: #e1306c; display: flex; align-items: center; gap: 8px;"><i class="fab fa-instagram" style="font-size: 1.25rem;"></i> ${data.ig1_handle || 'Instagram 1'}</a>` : ''}
+                                    ${data.ig2_url ? `<a href="${data.ig2_url}" target="_blank" class="btn-modal-outline" style="border-color: #e1306c; color: #e1306c; display: flex; align-items: center; gap: 8px;"><i class="fab fa-instagram" style="font-size: 1.25rem;"></i> ${data.ig2_handle || 'Instagram 2'}</a>` : ''}
+                                </div>
+
+                                <!-- Kanan: Tombol Guidebook & Daftar -->
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                    <a href="${data.modal_guidebook}" target="_blank" class="btn-modal-outline"><i class="fas fa-book"></i> Unduh Guidebook</a>
+                                    <a href="${data.modal_daftar}" target="_blank" class="btn-modal-solid">Daftar Sekarang <i class="fas fa-rocket"></i></a>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
