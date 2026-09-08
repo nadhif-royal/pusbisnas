@@ -30,14 +30,30 @@
                 <span class="bar"></span>
                 <span class="bar"></span>
             </div>
+            
+            <!-- Injeksi CSS Khusus untuk Optimasi Navigasi (Mencegah Menu Bertumpuk) -->
+            <style>
+                @media (min-width: 992px) {
+                    .nav-menu { gap: 12px !important; }
+                    .nav-link { font-size: 0.85rem !important; padding: 5px 8px !important; letter-spacing: 0.3px; }
+                    .btn-gold-outline { padding: 6px 15px !important; font-size: 0.85rem !important; }
+                }
+                @media (min-width: 1200px) {
+                    .nav-menu { gap: 20px !important; }
+                    .nav-link { font-size: 0.9rem !important; padding: 5px 10px !important; }
+                }
+            </style>
+
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">Beranda</a></li>
                 <li><a href="#about" class="nav-link">Tentang Kami</a></li>
-                <li><a href="#why-us" class="nav-link">Kenapa Kami</a></li>
+                <li><a href="#why-us" class="nav-link">Impact</a></li>
                 <li><a href="#services" class="nav-link">Layanan</a></li>
-                <li><a href="#projects" class="nav-link">Event Kolaborasi</a></li>
+                <li><a href="#media-partner" class="nav-link">Media Partner</a></li>
+                <li><a href="#ongoing-competitions" class="nav-link">Kompetisi</a></li>
+                <li><a href="#projects" class="nav-link">Riwayat Kolaborasi</a></li>
                 <li><a href="#contact" class="nav-link btn-gold-outline">Hubungi Kami</a></li>
-                <li style="display: flex; align-items: center; margin-left: 10px;">
+                <li style="display: flex; align-items: center; margin-left: 5px;">
                     <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
                         <i class="fas fa-sun"></i>
                     </button>
