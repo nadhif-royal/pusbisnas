@@ -42,6 +42,21 @@
                 <div class="gold-line"></div>
             </div>
 
+            <!-- INJEKSI CSS FIX: MENCEGAH POSTER MELAR JADI RAKSASA -->
+            <style>
+                #kompetisi-dinamis {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+                    justify-content: center;
+                    gap: 30px;
+                }
+                #kompetisi-dinamis .poster-card {
+                    max-width: 420px; /* Batas maksimal lebar kartu */
+                    margin: 0 auto;   /* Tengahkan kartu jika dia sendirian */
+                    width: 100%;
+                }
+            </style>
+
             <div class="poster-grid" id="kompetisi-dinamis">
                 <!-- Data card lomba akan dimunculkan secara otomatis oleh Firebase di sini -->
             </div>
