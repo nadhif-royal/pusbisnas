@@ -35,10 +35,16 @@ async function loadGlobalSettings() {
                 if (el && text) el.innerHTML = text; 
             };
             
-            // Helper: Mengubah atribut khusus (untuk animasi counter)
+            // Helper: Mengubah atribut khusus & sinkronisasi langsung angka counter
             const setAttr = (id, attr, value) => {
                 const el = document.getElementById(id);
-                if (el && value) el.setAttribute(attr, value);
+                if (el && value) {
+                    el.setAttribute(attr, value);
+                    // Jika animasi counter sudah telanjur jalan sebelum Firebase merespon, langsung timpa angkanya
+                    if (el.innerText !== "0") {
+                        el.innerText = value;
+                    }
+                }
             };
 
             // 1. Eksekusi Render Teks
