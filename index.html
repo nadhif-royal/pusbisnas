@@ -31,13 +31,39 @@
                 <span class="bar"></span>
             </div>
             
-            <!-- Injeksi CSS Khusus untuk Optimasi Navigasi (Mencegah Menu Bertumpuk) -->
+            <!-- Injeksi CSS Khusus untuk Optimasi Navigasi (Mencegah Menu Bertumpuk & Bug Mobile) -->
             <style>
+                /* 1. LAYAR HP & TABLET (Paksa jadi Hamburger Dropdown) */
+                @media (max-width: 991px) {
+                    .menu-toggle { display: flex !important; }
+                    .nav-menu { 
+                        display: flex !important;
+                        position: absolute;
+                        top: 100%;
+                        left: -100%; /* Sembunyikan ke luar layar kiri */
+                        width: 100%;
+                        background-color: #0f172a;
+                        flex-direction: column;
+                        align-items: center;
+                        padding: 25px 0;
+                        gap: 20px !important;
+                        transition: left 0.3s ease;
+                        border-bottom: 1px solid #1e293b;
+                        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+                    }
+                    /* Class .active dipicu oleh main.js saat hamburger diklik */
+                    .nav-menu.active { left: 0 !important; }
+                }
+
+                /* 2. LAYAR LAPTOP STANDAR (13-14 inch) */
                 @media (min-width: 992px) {
-                    .nav-menu { gap: 12px !important; }
+                    .menu-toggle { display: none !important; }
+                    .nav-menu { display: flex !important; flex-direction: row; gap: 12px !important; position: static; width: auto; background: transparent; padding: 0; box-shadow: none; border: none; }
                     .nav-link { font-size: 0.85rem !important; padding: 5px 8px !important; letter-spacing: 0.3px; }
                     .btn-gold-outline { padding: 6px 15px !important; font-size: 0.85rem !important; }
                 }
+
+                /* 3. LAYAR PC/MONITOR BESAR */
                 @media (min-width: 1200px) {
                     .nav-menu { gap: 20px !important; }
                     .nav-link { font-size: 0.9rem !important; padding: 5px 10px !important; }
